@@ -7,6 +7,8 @@ import { STATE_SNOW, getStateSnow, snowBand } from "@/lib/ground-snow";
 import { ROOF_TYPES } from "@/lib/roof-types";
 
 export const dynamicParams = false;
+// 1-week ISR (see app/page.tsx for the reasoning).
+export const revalidate = 604800;
 
 export function generateStaticParams() {
   return STATE_SNOW.map((s) => ({ slug: s.slug }));

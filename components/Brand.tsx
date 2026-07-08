@@ -18,7 +18,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
     <span className={`flex items-center gap-2.5 ${className}`}>
       <LogoMark size={28} />
       <span className="font-display text-[20px] font-semibold leading-none tracking-tight text-ink-900">
-        SnowLoadCalc
+        RoofHelm
       </span>
     </span>
   );

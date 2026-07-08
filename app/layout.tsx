@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 const NAV = [
-  { href: "/calculators", label: "Roof types" },
+  { href: "/calculators", label: "Calculators" },
   { href: "/states", label: "By state" },
   { href: "/drift", label: "Drift" },
   { href: "/blog", label: "Essays" },
@@ -31,7 +31,7 @@ function Header() {
     <header className="sticky top-0 z-40 bg-paper/92 backdrop-blur print:hidden">
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex items-center justify-between border-b border-ink-100 py-1.5">
-          <span className="label text-ink-400">A roof snow load monograph</span>
+          <span className="label text-ink-400">A roof engineering monograph</span>
           <span className="label hidden text-ink-400 sm:block">ASCE/SEI 7-22 · Chapter 7</span>
         </div>
         <div className="flex items-baseline justify-between py-3.5">
@@ -77,7 +77,8 @@ function Footer() {
     { head: "Plates", links: [
       { href: "/calculators/flat-roof-snow-load", label: "Flat roof" },
       { href: "/calculators/metal-building-snow-load", label: "Metal building" },
-      { href: "/calculators/carport-patio-cover-snow-load", label: "Carport" },
+      { href: "/calculators/roof-pitch-calculator", label: "Roof pitch" },
+      { href: "/calculators/roof-replacement-cost-calculator", label: "Roof cost" },
     ] },
     { head: "Appendices", links: [
       { href: "/states", label: "Ground snow by state" }, { href: "/blog", label: "Essays" },
@@ -91,8 +92,8 @@ function Footer() {
           <div>
             <Link href="/" aria-label={`${SITE.name} home`}><Wordmark /></Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-ink-500">
-              An offprint of the ASCE 7-22 roof snow load method, set and computed transparently, with every
-              factor shown.
+              An offprint on roof engineering: ASCE 7-22 snow load, roof geometry, insulation, HVAC and cost,
+              set and computed transparently, with every factor shown.
             </p>
           </div>
           {cols.map((c) => (
@@ -109,10 +110,12 @@ function Footer() {
         <div className="mt-12 border-t border-ink-200 pt-6">
           <p className="max-w-3xl text-xs leading-relaxed text-ink-400">
             <span className="label text-ink-500">Colophon. </span>
-            {SITE.name} is set in Fraunces and Inter. It computes ASCE 7-22 balanced, minimum, rain-on-snow
-            and §7.6.1 unbalanced roof loads for planning and checking. The governing ground snow load comes
-            from the ASCE 7 Hazard Tool or your building department, and drift and sliding cases must also be
-            reviewed. Confirm with a licensed engineer before you build or submit. © {year} {SITE.name}.
+            {SITE.name} is set in Fraunces and Inter. The snow load engine computes ASCE 7-22 balanced,
+            minimum, rain-on-snow and §7.6.1 unbalanced roof loads for planning and checking; the pitch,
+            rafter, truss, joist, insulation, HVAC and cost calculators use the real-formula engines documented
+            on each calculator page. The governing ground snow load comes from the ASCE 7 Hazard Tool or your
+            building department, and drift, sliding and code-table cases must also be reviewed. Confirm with a
+            licensed engineer or contractor before you build or submit. © {year} {SITE.name}.
           </p>
         </div>
       </div>

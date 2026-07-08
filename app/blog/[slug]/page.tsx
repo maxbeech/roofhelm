@@ -7,6 +7,8 @@ import { POSTS, getPost } from "@/lib/posts";
 import { SITE } from "@/lib/site";
 
 export const dynamicParams = false;
+// 1-week ISR (see app/page.tsx for the reasoning).
+export const revalidate = 604800;
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.slug }));

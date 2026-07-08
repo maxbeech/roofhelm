@@ -186,7 +186,7 @@ export function interpretSnow(inp: SnowInputs, r: SnowResult): SnowInterpretatio
     nextSteps: [
       "Confirm your site's ground snow load with your building department or the ASCE 7 Hazard Tool.",
       "Check unbalanced, drift and sliding-snow load cases for gable, stepped and multi-level roofs.",
-      "For a permit submittal, generate a stamped-ready snow load report (SnowLoadCalc Pro) and have a licensed engineer review it.",
+      "For a permit submittal, generate a stamped-ready snow load report (RoofHelm Pro) and have a licensed engineer review it.",
     ],
   };
 }

@@ -15,6 +15,9 @@ const FAQS = [
   { q: "What load does the drift add?", a: "The peak surcharge is pd = hd × γ, where γ = 0.13·Pg + 14 pcf (capped at 30). It is a triangular load that sits on top of the balanced load against the step, tapering to zero over the drift width." },
 ];
 
+// 1-week ISR (see app/page.tsx for the reasoning).
+export const revalidate = 604800;
+
 export default function DriftPage() {
   return (
     <div>

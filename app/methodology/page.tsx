@@ -3,10 +3,13 @@ import { CE, CT, IS } from "@/lib/snow";
 import { PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
-  title: "Methodology: How SnowLoadCalc Computes Snow Load",
-  description: "The exact ASCE 7-22 equations, factors and tables SnowLoadCalc uses, with every source cited. Transparent, defensible roof snow load math.",
+  title: "Methodology: How RoofHelm Computes Snow Load",
+  description: "The exact ASCE 7-22 equations, factors and tables RoofHelm uses, with every source cited. Transparent, defensible roof snow load math.",
   alternates: { canonical: "/methodology" },
 };
+
+// 1-week ISR (see app/page.tsx for the reasoning).
+export const revalidate = 604800;
 
 function Cell({ children, head }: { children: React.ReactNode; head?: boolean }) {
   return <td className={`border border-ink-100 px-3 py-1.5 text-center ${head ? "bg-ink-50/70 font-semibold text-ink-700" : "text-ink-600"}`}>{children}</td>;
@@ -26,7 +29,7 @@ export default function Methodology() {
   return (
     <div>
       <PageHeader eyebrow="Reference" title="Methodology" width="max-w-4xl">
-        SnowLoadCalc implements the snow load procedure of <strong className="text-ink-700">ASCE/SEI 7-22,
+        RoofHelm implements the snow load procedure of <strong className="text-ink-700">ASCE/SEI 7-22,
         Chapter 7</strong> (Minimum Design Loads and Associated Criteria for Buildings and Other Structures).
         Every factor below is exactly the value the calculator uses. This page is the single source of truth.
       </PageHeader>
@@ -52,7 +55,7 @@ export default function Methodology() {
         <h2 className="font-display text-lg font-bold text-ink-900">Ground snow load, Pg</h2>
         <p className="mt-2">
           Pg is a site-specific input, set by the ASCE 7 Hazard Tool or your local building department.
-          SnowLoadCalc never assumes it. The per-state pages provide a planning range read from the ASCE 7
+          RoofHelm never assumes it. The per-state pages provide a planning range read from the ASCE 7
           ground snow load map; the value adopted by your jurisdiction governs a permit.
         </p>
       </section>
@@ -112,7 +115,7 @@ export default function Methodology() {
       <section className="mt-9 border-l-2 border-load-500 bg-load-50 p-5 text-sm leading-relaxed text-ink-600">
         <h2 className="font-display text-lg font-bold text-ink-900">What this tool covers, and what it does not</h2>
         <p className="mt-2">
-          SnowLoadCalc computes the <strong className="text-ink-800">balanced</strong> roof snow load, the
+          RoofHelm computes the <strong className="text-ink-800">balanced</strong> roof snow load, the
           §7.3.4 minimum and the §7.10 rain-on-snow case; the <strong className="text-ink-800">§7.6.1
           unbalanced</strong> case for hip and gable roofs; and, on the drift page, the <strong className="text-ink-800">§7.7
           drift</strong> surcharge at roof steps. It does not yet resolve sliding snow (§7.9), partial loading

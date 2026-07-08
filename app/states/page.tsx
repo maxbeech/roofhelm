@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/states" },
 };
 
+// 1-week ISR (see app/page.tsx for the reasoning).
+export const revalidate = 604800;
+
 export default function StatesIndex() {
   return (
     <div>

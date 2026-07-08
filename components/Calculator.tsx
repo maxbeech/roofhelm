@@ -6,45 +6,8 @@ import {
   type RoofShape, type SnowInputs, type Surface, type Terrain, type Thermal,
 } from "@/lib/snow";
 import { decodeInputs, encodeInputs } from "@/lib/snow-url";
+import { Field, NumberField, selectControl } from "./FormFields";
 import CalcResults from "./CalcResults";
-
-const selectCls =
-  "mt-1 w-full border border-ink-300 bg-paper px-3 py-2 text-sm text-ink-900 transition focus-visible:border-frost-500 focus-visible:ring-1 focus-visible:ring-frost-500 focus:outline-none";
-// Selects add the painted chevron; number inputs reuse the base only.
-const selectControl = `${selectCls} select-control`;
-
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="block text-[13px] font-semibold text-ink-700">{label}</span>
-      {children}
-      {hint && <span className="mt-1 block text-xs leading-snug text-ink-400">{hint}</span>}
-    </label>
-  );
-}
-
-// Number input that lets you clear and retype (keeps a raw string while editing,
-// clamps to [min,max] only on blur), so deleting a digit never snaps to the min.
-function NumberField({ value, min, max, step = 1, onChange, ariaLabel }:
-  { value: number; min: number; max: number; step?: number; onChange: (n: number) => void; ariaLabel?: string }) {
-  const [raw, setRaw] = useState(String(value));
-  const [lastValue, setLastValue] = useState(value);
-  if (value !== lastValue) { setLastValue(value); setRaw(String(value)); }
-  return (
-    <input type="number" inputMode="decimal" min={min} max={max} step={step} value={raw} aria-label={ariaLabel}
-      className={`${selectCls} tabular font-mono`}
-      onChange={(e) => {
-        setRaw(e.target.value);
-        if (e.target.value === "") return;
-        const n = Number(e.target.value);
-        if (Number.isFinite(n)) onChange(Math.min(max, Math.max(min, n)));
-      }}
-      onBlur={() => {
-        const n = raw === "" ? min : Math.min(max, Math.max(min, Number(raw) || min));
-        setRaw(String(n)); onChange(n);
-      }} />
-  );
-}
 
 const PITCHES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]; // rise per 12 run
 
@@ -56,7 +19,7 @@ function matchedPitch(slopeDeg: number): number | "" {
   return Math.abs(pitchToDeg(p) - slopeDeg) <= 0.3 ? p : "";
 }
 
-export default function Calculator({ seed }: { seed?: Partial<SnowInputs> }) {
+export default function Calculator({ seed, offerSlug }: { seed?: Partial<SnowInputs>; offerSlug?: string }) {
   const [inp, setInp] = useState<SnowInputs>(() => ({ ...DEFAULT_SNOW, ...seed }));
   const hydrated = useRef(false);
 
@@ -171,7 +134,7 @@ export default function Calculator({ seed }: { seed?: Partial<SnowInputs> }) {
           </div>
         </div>
 
-        <CalcResults inp={inp} r={r} />
+        <CalcResults inp={inp} r={r} offerSlug={offerSlug} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 {
-  "name": "snowloadcalc",
+  "name": "roofhelm",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx test/snow.test.mts && tsx test/snow-url.test.mts && tsx test/drift.test.mts && tsx test/unbalanced.test.mts && tsx test/diagram.test.mts && tsx test/contours.test.mts && tsx test/copy-style.test.mts",
+    "test": "tsx test/snow.test.mts && tsx test/snow-url.test.mts && tsx test/drift.test.mts && tsx test/unbalanced.test.mts && tsx test/diagram.test.mts && tsx test/contours.test.mts && tsx test/offers.test.mts && tsx test/tools.test.mts && tsx test/copy-style.test.mts",
     "test:e2e": "tsx test/e2e-crawl.mts"
   },
   "dependencies": {

@@ -2,30 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { computeDrift, DEFAULT_DRIFT, type DriftInputs } from "@/lib/drift";
+import { Field, NumberField } from "./FormFields";
 import { FigCaption } from "./ui";
-
-const fieldCls =
-  "mt-1 w-full tabular border border-ink-300 bg-paper px-3 py-2 font-mono text-sm text-ink-900 transition focus-visible:border-frost-500 focus-visible:ring-1 focus-visible:ring-frost-500 focus:outline-none";
-
-function NumField({ value, min, max, step = 1, onChange, ariaLabel }:
-  { value: number; min: number; max: number; step?: number; onChange: (n: number) => void; ariaLabel: string }) {
-  const [raw, setRaw] = useState(String(value));
-  return (
-    <input type="number" inputMode="decimal" min={min} max={max} step={step} className={fieldCls} value={raw} aria-label={ariaLabel}
-      onChange={(e) => { setRaw(e.target.value); const n = Number(e.target.value); if (e.target.value !== "" && Number.isFinite(n)) onChange(Math.min(max, Math.max(min, n))); }}
-      onBlur={() => { const n = raw === "" ? min : Math.min(max, Math.max(min, Number(raw) || min)); setRaw(String(n)); onChange(n); }} />
-  );
-}
-
-function Field({ label, hint, children }: { label: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="block text-[13px] font-semibold text-ink-700">{label}</span>
-      {children}
-      {hint && <span className="mt-1 block text-xs leading-snug text-ink-400">{hint}</span>}
-    </label>
-  );
-}
 
 // Schematic of the roof step and the drift wedge built against it.
 function StepDiagram({ stepPx, driftPx, driftWide, required }:
@@ -60,11 +38,11 @@ export default function DriftCalculator() {
       <div className="border border-ink-300 bg-paper p-5">
         <h2 className="label border-b border-ink-200 pb-3 text-ink-500">The roof step</h2>
         <div className="mt-4 space-y-3.5">
-          <Field label="Ground snow load, Pg (psf)"><NumField value={inp.pg} min={0} max={400} onChange={(n) => set("pg", n)} ariaLabel="Ground snow load" /></Field>
-          <Field label="Lower-roof balanced load, Ps (psf)" hint="From the main calculator."><NumField value={inp.ps} min={0} max={400} onChange={(n) => set("ps", n)} ariaLabel="Lower roof balanced load" /></Field>
-          <Field label="Step height (ft)" hint="Upper roof minus lower roof."><NumField value={inp.stepHeight} min={0} max={100} step={0.5} onChange={(n) => set("stepHeight", n)} ariaLabel="Step height" /></Field>
-          <Field label="Upper roof length, Lu (ft)" hint="Leeward fetch feeding the drift."><NumField value={inp.lu} min={5} max={1000} onChange={(n) => set("lu", n)} ariaLabel="Upper roof length" /></Field>
-          <Field label="Lower roof length, Ll (ft)" hint="Windward fetch."><NumField value={inp.ll} min={5} max={1000} onChange={(n) => set("ll", n)} ariaLabel="Lower roof length" /></Field>
+          <Field label="Ground snow load, Pg (psf)"><NumberField value={inp.pg} min={0} max={400} onChange={(n) => set("pg", n)} ariaLabel="Ground snow load" /></Field>
+          <Field label="Lower-roof balanced load, Ps (psf)" hint="From the main calculator."><NumberField value={inp.ps} min={0} max={400} onChange={(n) => set("ps", n)} ariaLabel="Lower roof balanced load" /></Field>
+          <Field label="Step height (ft)" hint="Upper roof minus lower roof."><NumberField value={inp.stepHeight} min={0} max={100} step={0.5} onChange={(n) => set("stepHeight", n)} ariaLabel="Step height" /></Field>
+          <Field label="Upper roof length, Lu (ft)" hint="Leeward fetch feeding the drift."><NumberField value={inp.lu} min={5} max={1000} onChange={(n) => set("lu", n)} ariaLabel="Upper roof length" /></Field>
+          <Field label="Lower roof length, Ll (ft)" hint="Windward fetch."><NumberField value={inp.ll} min={5} max={1000} onChange={(n) => set("ll", n)} ariaLabel="Lower roof length" /></Field>
         </div>
       </div>
 

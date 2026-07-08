@@ -55,7 +55,7 @@ export function MockWindow({ title = "Plate", children, className = "" }:
     <figure className={`border border-ink-300 bg-paper shadow-[0_24px_50px_-30px_rgba(20,17,11,0.4)] ${className}`}>
       <figcaption className="flex items-center justify-between border-b border-ink-200 px-3 py-1.5">
         <span className="label text-ink-500">{title}</span>
-        <span className="label text-ink-300">SnowLoadCalc</span>
+        <span className="label text-ink-300">RoofHelm</span>
       </figcaption>
       <div className="p-3 sm:p-4">{children}</div>
     </figure>

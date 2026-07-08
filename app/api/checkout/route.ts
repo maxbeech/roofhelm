@@ -4,14 +4,17 @@ import { NextResponse } from "next/server";
 // env vars (STRIPE_SECRET_KEY, STRIPE_PRICE_ID). When absent (e.g. before the
 // Stripe account is wired) the endpoint degrades gracefully: the Pro tier reads
 // "coming soon" via the `message` field instead of throwing a 500.
+// Deliberately uncached, same reasoning as app/api/lead/route.ts: this
+// creates a unique Stripe session per request and must never serve a stale
+// checkout URL.
 export async function POST() {
   const secret = process.env.STRIPE_SECRET_KEY;
   const price = process.env.STRIPE_PRICE_ID;
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://snowloadcalc.vercel.app";
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://roofhelm.vercel.app";
 
   if (!secret || !price) {
     return NextResponse.json(
-      { message: "Pro reports are launching shortly. Email hello@snowloadcalc.com for early access." },
+      { message: "Pro reports are launching shortly. Email hello@roofhelm.com for early access." },
       { status: 200 },
     );
   }

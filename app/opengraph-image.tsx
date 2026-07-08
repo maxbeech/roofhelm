@@ -15,7 +15,7 @@ export default function OgImage() {
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: COLOR.paper, padding: "64px 72px", color: COLOR.ink900 }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", justifyContent: "space-between", borderBottom: `2px solid ${COLOR.ink900}`, paddingBottom: 16, fontSize: 22, letterSpacing: 2, color: COLOR.ink600, textTransform: "uppercase" }}>
-            <span style={{ display: "flex" }}>A roof snow load monograph</span>
+            <span style={{ display: "flex" }}>A roof engineering monograph</span>
             <span style={{ display: "flex" }}>Vol. 01</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 28 }}>
@@ -24,7 +24,7 @@ export default function OgImage() {
               <path d={MARK.roof} fill="none" stroke={COLOR.ink900} strokeWidth="1.5" />
               <path d={MARK.snowCap} fill="none" stroke={COLOR.frost600} strokeWidth="1.3" />
             </svg>
-            <div style={{ display: "flex", fontSize: 30, fontWeight: 700, letterSpacing: -0.5 }}>SnowLoadCalc</div>
+            <div style={{ display: "flex", fontSize: 30, fontWeight: 700, letterSpacing: -0.5 }}>RoofHelm</div>
           </div>
         </div>
 

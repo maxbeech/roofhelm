@@ -27,6 +27,11 @@ const PRO = [
 // early-access affordance instead of a dead-end purchase button.
 const PRO_ENABLED = Boolean(process.env.STRIPE_SECRET_KEY && process.env.STRIPE_PRICE_ID);
 
+// 1-week ISR (see app/page.tsx for the reasoning). Pricing itself doesn't
+// change without a redeploy (PRO_ENABLED is read from env at build time
+// anyway), so this is purely the consistent policy, not a functional need.
+export const revalidate = 604800;
+
 function Check() {
   return <svg width="16" height="16" viewBox="0 0 24 24" className="mt-0.5 shrink-0 stroke-frost-500" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>;
 }
@@ -58,7 +63,7 @@ export default function Pricing() {
           </ul>
           <div className="mt-6"><CheckoutButton enabled={PRO_ENABLED} /></div>
           <p className="mt-4 text-xs leading-relaxed text-ink-400">
-            A SnowLoadCalc report is a calculation aid, not a stamped engineering document. For a permit,
+            A RoofHelm report is a calculation aid, not a stamped engineering document. For a permit,
             have a licensed engineer review it and confirm the unbalanced, drift and sliding cases.
           </p>
         </div>

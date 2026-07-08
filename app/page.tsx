@@ -9,9 +9,20 @@ import { HowItWorks, StatStrip, ClosingCTA } from "@/components/HomeSections";
 import { CTA, SectionHead, FigCaption } from "@/components/ui";
 import { HOME_FAQS } from "@/lib/faq";
 import { ROOF_TYPES } from "@/lib/roof-types";
+import { TOOL_GROUPS } from "@/lib/tools";
 import { STATE_SNOW } from "@/lib/ground-snow";
 import { POSTS } from "@/lib/posts";
 import { SITE } from "@/lib/site";
+
+// Vercel free-tier policy: every content page in this app is pre-rendered at
+// build time from in-repo data (no external fetch), so it's already served
+// purely from the static CDN cache with zero function invocations -- the
+// best case ISR can offer. `revalidate` is set anyway (1 week) so the page
+// is correctly classified as ISR-eligible rather than purely static-export,
+// which matters if/when a content source here ever moves to a runtime fetch
+// (e.g. a future CMS): the cache policy is already in place, not bolted on
+// later under time pressure.
+export const revalidate = 604800; // 1 week, seconds
 
 export default function Home() {
   return (
@@ -33,9 +44,9 @@ export default function Home() {
           <div className="mt-10 grid items-start gap-10 lg:grid-cols-[0.92fr_1.08fr]">
             <div>
               <p className="dropcap max-w-md text-[17px] leading-relaxed text-ink-700">
-                SnowLoadCalc is an interactive monograph on the ASCE 7-22 roof snow load method. Enter a site
-                and a roof; read the flat, sloped, minimum, rain-on-snow and §7.6.1 unbalanced loads, with
-                every factor shown and nothing hidden.
+                RoofHelm is an interactive monograph on roof engineering. Start with the ASCE 7-22 snow load
+                method below (flat, sloped, minimum, rain-on-snow and §7.6.1 unbalanced loads, every factor
+                shown), then the roof geometry, insulation, HVAC and cost calculators further down the page.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <CTA href="#calculator">Open the calculator</CTA>
@@ -91,9 +102,34 @@ export default function Home() {
         </div>
       </section>
 
-      {/* §06 By state, appendix preview */}
+      {/* §06 Beyond snow: the rest of the calculator suite */}
+      <section className="border-t-2 border-ink-900 bg-paper">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <SectionHead num="06" eyebrow="Beyond snow" title="Roof geometry, insulation, HVAC & cost"
+            sub="The same transparent, real-formula approach applied to the rest of a roof project: pitch and framing, the building envelope, and what it costs to replace." />
+          {TOOL_GROUPS.map((g) => (
+            <div key={g.heading} className="mt-10">
+              <h3 className="font-display text-lg font-semibold text-ink-900">{g.heading}</h3>
+              <Reveal className="mt-3 border-t border-ink-200">
+                {g.tools.map((t, i) => (
+                  <Link key={t.slug} href={`/calculators/${t.slug}`}
+                    className="group flex items-baseline gap-4 border-b border-ink-200 py-4">
+                    <span className="font-mono text-xs text-ink-400">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="font-display text-lg font-medium text-ink-900 transition group-hover:text-frost-600">{t.name}</span>
+                    <span className="mx-1 hidden flex-1 translate-y-[-3px] border-b border-dotted border-ink-300 sm:block" />
+                    <span className="hidden font-mono text-xs text-ink-400 sm:block">{t.keyword}</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="shrink-0 stroke-ink-300 transition group-hover:translate-x-0.5 group-hover:stroke-frost-600" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                  </Link>
+                ))}
+              </Reveal>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* §07 By state, appendix preview */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHead num="06" eyebrow="Appendix · by state" title="Ground snow load, state by state"
+        <SectionHead num="07" eyebrow="Appendix · by state" title="Ground snow load, state by state"
           sub="Planning ranges for the populated parts of every state, with mountain case-study zones flagged. Confirm the exact value for your site with your building department." />
         <div className="mt-8 flex flex-wrap gap-1.5">
           {STATE_SNOW.map((s) => (

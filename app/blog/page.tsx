@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
+// 1-week ISR (see app/page.tsx for why this is policy-correct even though
+// it's currently a no-op: no external fetch backs this page yet).
+export const revalidate = 604800;
+
 export default function BlogIndex() {
   return (
     <div>

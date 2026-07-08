@@ -2,7 +2,9 @@
 
 import { type SnowInputs, type SnowResult, interpretSnow } from "@/lib/snow";
 import { computeUnbalanced } from "@/lib/unbalanced";
+import { categoryForSlug } from "@/lib/offers";
 import RoofDiagram from "./RoofDiagram";
+import SupplierModule from "./SupplierModule";
 import { FigCaption } from "./ui";
 
 const fmt = (n: number) => n.toLocaleString("en-US");
@@ -20,10 +22,11 @@ function Stat({ label, value, unit, hint, accent }:
   );
 }
 
-export default function CalcResults({ inp, r }: { inp: SnowInputs; r: SnowResult }) {
+export default function CalcResults({ inp, r, offerSlug }: { inp: SnowInputs; r: SnowResult; offerSlug?: string }) {
   const view = interpretSnow(inp, r);
   const unbal = computeUnbalanced(inp, r);
   const showUnbal = inp.shape === "gable" || inp.shape === "hip";
+  const offerCategory = categoryForSlug(offerSlug);
 
   return (
     <div className="space-y-4">
@@ -109,6 +112,12 @@ export default function CalcResults({ inp, r }: { inp: SnowInputs; r: SnowResult
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" /></svg>
         Print or save as PDF
       </button>
+
+      <SupplierModule
+        category={offerCategory}
+        contextLine={<>Your design roof snow load is{" "}<span className="tabular font-mono font-semibold text-frost-600">{r.design} psf</span>.</>}
+        quoteQuery={{ load: r.design, pg: r.pg }}
+      />
     </div>
   );
 }

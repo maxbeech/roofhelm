@@ -26,7 +26,7 @@ export const POSTS: Post[] = [
       { h: "Step 2: Convert to the flat-roof load (Pf)", p: ["ASCE 7-22 Equation 7.3-1 converts ground snow to the flat-roof snow load: Pf = 0.7 × Ce × Ct × Is × Pg. The 0.7 base factor accounts for snow that blows or melts off a roof. Ce is the exposure factor (how wind-exposed the roof is), Ct is the thermal factor (how warm the roof is underneath), and Is is the importance factor (how critical the building is)."] },
       { h: "Step 3: Apply the slope factor (Cs) for a pitched roof", p: ["Sloped roofs shed snow, so multiply Pf by the slope factor Cs to get the sloped balanced load Ps = Cs × Pf. Cs is 1.0 up to a breakpoint slope and then decreases linearly to zero at 70°. Warm and slippery roofs shed sooner, so their breakpoint is lower."] },
       { h: "Step 4: Check the minimum and rain-on-snow", p: ["Low-slope roofs (under 15°) must also carry a minimum load: Is × Pg if Pg ≤ 20 psf, otherwise 20 × Is. And in mild-winter areas (Pg ≤ 20) a nearly flat roof gets a 5 psf rain-on-snow surcharge. Your design load is the largest governing case."] },
-      { p: ["Plug your numbers into the SnowLoadCalc calculator and it does all four steps and shows every factor. For gable, stepped and multi-level roofs, also check the unbalanced, drift and sliding cases, any of which can govern."] },
+      { p: ["Plug your numbers into the RoofHelm calculator and it does all four steps and shows every factor. For gable, stepped and multi-level roofs, also check the unbalanced, drift and sliding cases, any of which can govern."] },
     ],
   },
   {
@@ -50,7 +50,7 @@ export const POSTS: Post[] = [
       { p: ["Ground snow load is a local number, but it helps to know the ballpark for your state before you look up the exact site value. We publish a planning range for the populated parts of every state, read from the ASCE 7 ground snow load map and common code amendments."] },
       { h: "The big picture", p: ["The Gulf Coast and Southwest deserts are effectively zero. The mid-Atlantic and lower Midwest run 15–30 psf. The upper Midwest and New England run 30–70 psf, and the northern tier of New England and the mountain West can exceed 100 psf at elevation."] },
       { h: "Watch the case-study states", p: ["In mountainous states (Colorado, Utah, Wyoming, Montana, Idaho, California, Washington, Oregon, Alaska and others) elevation drives the value, not the state. A valley town might be 35 psf while a resort a few miles away at altitude is 150+. Those states are flagged as case-study, meaning you must get the site value from the Hazard Tool or your AHJ."] },
-      { p: ["Pick your state from the SnowLoadCalc state directory for its range, a pre-loaded calculator and the local guidance, then confirm the exact ground snow load for your address before you build."] },
+      { p: ["Pick your state from the RoofHelm state directory for its range, a pre-loaded calculator and the local guidance, then confirm the exact ground snow load for your address before you build."] },
     ],
   },
   {
@@ -62,7 +62,7 @@ export const POSTS: Post[] = [
       { p: ["ASCE 7-22 is the 2022 edition of Minimum Design Loads and is being adopted through the 2024 IBC/IRC cycle. Its snow chapter (Chapter 7) kept the familiar equations but changed how the ground snow load is determined."] },
       { h: "Reliability-targeted ground snow loads", p: ["The biggest change is that ground snow loads are now reliability-targeted and delivered through the ASCE Hazard Tool database rather than a single printed map with case-study regions. The result is more site-specific values and, in some places, different numbers than ASCE 7-16 produced."] },
       { h: "The equations are familiar", p: ["The flat-roof equation Pf = 0.7 Ce Ct Is Pg, the slope factor Cs, the minimum-load rules and the drift formulas are all still here and broadly unchanged in form. If you know the 7-16 method, the 7-22 calculation will feel the same; it is mostly the Pg source that moved."] },
-      { h: "What to do", p: ["Always pull the ground snow load from the Hazard Tool for the correct code edition your jurisdiction has adopted, and confirm which edition that is. Then run the standard calculation, which is exactly what SnowLoadCalc implements."] },
+      { h: "What to do", p: ["Always pull the ground snow load from the Hazard Tool for the correct code edition your jurisdiction has adopted, and confirm which edition that is. Then run the standard calculation, which is exactly what RoofHelm implements."] },
     ],
   },
   {
