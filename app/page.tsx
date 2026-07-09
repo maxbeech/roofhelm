@@ -9,7 +9,7 @@ import { HowItWorks, StatStrip, ClosingCTA } from "@/components/HomeSections";
 import { CTA, SectionHead, FigCaption } from "@/components/ui";
 import { HOME_FAQS } from "@/lib/faq";
 import { ROOF_TYPES } from "@/lib/roof-types";
-import { TOOL_GROUPS } from "@/lib/tools";
+import { TOOL_GROUPS, TOOLS } from "@/lib/tools";
 import { STATE_SNOW } from "@/lib/ground-snow";
 import { POSTS } from "@/lib/posts";
 import { SITE } from "@/lib/site";
@@ -33,27 +33,29 @@ export default function Home() {
         <div className="frost-aurora absolute inset-0" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-6 pb-10 pt-10">
           <div className="flex items-center justify-between border-b border-ink-200 pb-2 label text-ink-400">
-            <span>Vol. 01 &middot; Roof snow load</span>
+            <span>Vol. 01 &middot; Roof engineering</span>
             <span className="hidden sm:block">Free &middot; No sign-up &middot; Open source</span>
           </div>
 
           <h1 className="mt-9 max-w-4xl font-display text-[2.9rem] font-semibold leading-[0.96] tracking-[-0.02em] text-ink-900 sm:text-[5rem]">
-            The weight of winter, <span className="italic font-normal text-frost-600">measured</span> to the letter of the code.
+            Every roof calculation, <span className="italic font-normal text-frost-600">measured</span> to the letter of the code.
           </h1>
 
           <div className="mt-10 grid items-start gap-10 lg:grid-cols-[0.92fr_1.08fr]">
             <div>
               <p className="dropcap max-w-md text-[17px] leading-relaxed text-ink-700">
-                RoofHelm is an interactive monograph on roof engineering. Start with the ASCE 7-22 snow load
-                method below (flat, sloped, minimum, rain-on-snow and §7.6.1 unbalanced loads, every factor
-                shown), then the roof geometry, insulation, HVAC and cost calculators further down the page.
+                RoofHelm is an interactive monograph on roof engineering: snow load, pitch and framing,
+                insulation and HVAC, and replacement cost, each run through a real formula with every factor
+                shown. Start with the ASCE 7-22 snow load method below (flat, sloped, minimum, rain-on-snow and
+                §7.6.1 unbalanced loads), or jump straight to a geometry, insulation, HVAC or cost calculator
+                further down the page.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <CTA href="#calculator">Open the calculator</CTA>
-                <CTA href="/methodology" variant="ghost">Read the method</CTA>
+                <CTA href="/calculators" variant="ghost">All calculators</CTA>
               </div>
               <dl className="mt-10 flex flex-wrap gap-x-10 gap-y-4">
-                {[["5", "load cases"], ["7", "ASCE factors"], ["51", "states + DC"], ["$0", "to use"]].map(([n, l]) => (
+                {[[String(ROOF_TYPES.length + TOOLS.length), "calculators"], ["5", "snow load cases"], ["51", "states + DC"], ["$0", "to use"]].map(([n, l]) => (
                   <div key={l} className="border-t-2 border-ink-900 pt-1.5">
                     <dt className="tabular font-display text-2xl font-semibold text-ink-900">{n}</dt>
                     <dd className="label text-ink-400">{l}</dd>

@@ -30,15 +30,16 @@ export default function OgImage() {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 78, fontWeight: 800, lineHeight: 1.02, letterSpacing: -2, maxWidth: 1010 }}>
-            The weight of winter, computed to ASCE 7-22.
+            Every roof calculation, measured to the letter of the code.
           </div>
           <div style={{ display: "flex", marginTop: 22, fontSize: 28, color: COLOR.ink600, maxWidth: 960 }}>
-            Ground snow to flat, sloped, minimum, rain-on-snow and §7.6.1 unbalanced load, every factor shown.
+            Snow load, pitch and framing, insulation, HVAC and roof replacement cost, each run through a real
+            formula with every factor shown.
           </div>
         </div>
 
         <div style={{ display: "flex", gap: 12, borderTop: `1px solid ${COLOR.ink200}`, paddingTop: 22 }}>
-          {["Pf = 0.7·Ce·Ct·Is·Pg", "Slope factor Cs", "Drift & unbalanced", "All 50 states"].map((t) => (
+          {["Snow load, ASCE 7-22", "Pitch & framing", "Insulation & HVAC", "Roof cost"].map((t) => (
             <div key={t} style={{ display: "flex", border: `1px solid ${COLOR.ink900}`, color: COLOR.ink800, padding: "8px 18px", fontSize: 22, fontWeight: 600 }}>
               {t}
             </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import ObfuscatedEmail from "./ObfuscatedEmail";
 
 // Pro checkout. The pricing page (a Server Component) passes `enabled`, computed
 // from whether the Stripe env vars are configured at build time. When Stripe is
@@ -14,11 +15,11 @@ export default function CheckoutButton({ enabled = false, className }: { enabled
     return (
       <div className="border border-ink-300 bg-frost-50/40 p-4 text-sm">
         <p className="font-semibold text-ink-800">Pro offprints are in press.</p>
-        <a href="mailto:hello@roofhelm.com?subject=RoofHelm%20Pro%20early%20access"
+        <ObfuscatedEmail subject="RoofHelm Pro early access"
           className="mt-1 inline-flex items-center gap-1 font-semibold text-frost-700 underline-offset-4 hover:underline">
           Email us for early access
           <span aria-hidden>&rarr;</span>
-        </a>
+        </ObfuscatedEmail>
       </div>
     );
   }

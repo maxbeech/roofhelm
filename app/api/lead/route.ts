@@ -172,7 +172,7 @@ export async function POST(req: Request) {
         ok: false,
         notLive: true,
         message:
-          "Supplier matching is launching shortly. Email hello@roofhelm.com with your project and snow load and we will connect you.",
+          "Supplier matching is launching shortly. Email hello [at] roofhelm.com with your project and snow load and we will connect you.",
       },
       { status: 200 },
     );
@@ -203,7 +203,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   }
   return NextResponse.json(
-    { ok: false, message: "We could not submit your request just now. Please try again or email hello@roofhelm.com." },
+    { ok: false, message: "We could not submit your request just now. Please try again or email hello [at] roofhelm.com." },
     { status: 502 },
   );
 }

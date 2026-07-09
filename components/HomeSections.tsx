@@ -2,6 +2,9 @@ import Link from "next/link";
 import Contours from "./Contours";
 import { Eyebrow, SectionHead } from "./ui";
 import { CountUp, Reveal } from "./motion";
+import { ROOF_TYPES } from "@/lib/roof-types";
+import { TOOLS } from "@/lib/tools";
+import { POSTS } from "@/lib/posts";
 
 const STEPS = [
   { n: "01", h: "Set the ground snow load", p: "Pg comes from the ASCE 7 Hazard Tool or your building department. The per-state appendix gives a planning range to start from." },
@@ -44,7 +47,7 @@ export function StatStrip() {
       <div className="flex flex-wrap items-end justify-between gap-6">
         <SectionHead num="04" eyebrow="The scale" title="Read any result at a glance" />
         <div className="flex gap-10">
-          {[[8, "roof types"], [51, "states + DC"], [12, "essays"]].map(([n, l]) => (
+          {[[ROOF_TYPES.length, "roof types"], [TOOLS.length, "other calculators"], [51, "states + DC"], [POSTS.length, "essays"]].map(([n, l]) => (
             <div key={l as string} className="border-t-2 border-ink-900 pt-2">
               <div className="tabular font-display text-4xl font-semibold text-ink-900"><CountUp value={n as number} /></div>
               <div className="label mt-1 text-ink-400">{l}</div>

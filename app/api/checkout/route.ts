@@ -14,7 +14,7 @@ export async function POST() {
 
   if (!secret || !price) {
     return NextResponse.json(
-      { message: "Pro reports are launching shortly. Email hello@roofhelm.com for early access." },
+      { message: "Pro reports are launching shortly. Email hello [at] roofhelm.com for early access." },
       { status: 200 },
     );
   }

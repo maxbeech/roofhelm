@@ -32,7 +32,7 @@ function Header() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="flex items-center justify-between border-b border-ink-100 py-1.5">
           <span className="label text-ink-400">A roof engineering monograph</span>
-          <span className="label hidden text-ink-400 sm:block">ASCE/SEI 7-22 · Chapter 7</span>
+          <span className="label hidden text-ink-400 sm:block">Snow load · pitch · insulation · HVAC · cost</span>
         </div>
         <div className="flex items-baseline justify-between py-3.5">
           <Link href="/" aria-label={`${SITE.name} home`}><Wordmark /></Link>
