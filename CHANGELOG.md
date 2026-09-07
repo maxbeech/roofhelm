@@ -1,5 +1,62 @@
 # Changelog
 
+## 2026-07-10 — Blog rebuilt: featured images, longer guides, 12 new posts
+
+Reworked the blog from a 24-post, plain-text set into a 36-post library that
+meets the full SEO/GEO content brief: featured images, tables, FAQs, TOC and
+schema on every post, plus 12 brand-new posts targeting the calculator-suite
+keyword plan (`docs/seo_geo_content_plan.md`).
+
+### Added
+- `lib/posts/types.ts`: extended `Post` shape (`image`, `author`, `keywords`,
+  `takeaways`, `table`, `faqs`, `sources`, `internalLinks`, optional `howTo`/
+  `review`) so every post carries the SEO scaffolding the brief requires.
+- `lib/posts/content/*.ts`: one file per post (36 total), mirroring the
+  `lib/tools/*.ts` one-item-per-file convention, aggregated by
+  `lib/posts/index.ts`. Replaces the single `lib/posts.ts`.
+- `lib/posts/richtext.ts`: a tiny `[label](href)` inline-link parser (not
+  markdown) so post prose can carry real contextual internal/external links
+  without adding a markdown dependency.
+- `lib/posts/schema.ts`: builds BlogPosting + optional HowTo/Review JSON-LD
+  per post; FAQPage schema continues to come from the existing `Faq`
+  component.
+- `components/BlogPost.tsx`: the new post renderer, featured image with
+  photographer credit, key-takeaways box, auto-generated table of contents,
+  data table, FAQ, sources list, and per-post related links.
+- 12 new posts covering the site's biggest keyword gaps: roof pitch, rafter
+  length, rafter vs. truss, truss count, attic insulation R-value, Manual J
+  /HVAC load, roof replacement cost, pole barn cost, steel building cost,
+  stamped engineering drawings, ASCE 7-22 code adoption, and a review
+  comparing free snow load calculators.
+- `test/posts.test.mts`: 36 posts x ~15 checks validating every required
+  field, word count, and howTo/review consistency; wired into `npm test`.
+
+### Changed
+- All 24 existing posts expanded from ~300-500 words to 1,200-2,500 words
+  each, with the original ASCE 7-22 facts and figures preserved exactly and
+  only depth (worked examples, tables, FAQs) added.
+- `app/blog/page.tsx`: card grid now shows a featured-image thumbnail and a
+  category pill (Academy/News/Review) per post.
+- `next.config.ts`: added `images.pexels.com` to `remotePatterns`. Post
+  images render `unoptimized` (Pexels already serves pre-sized, compressed
+  JPEGs via its own query params, so re-optimizing through Next's image
+  pipeline was redundant and, under concurrent load, occasionally timed out).
+
+### Notes
+- Images are real, licensed Pexels photos (photographer credited under each,
+  linking back to their Pexels profile), sourced via the Pexels MCP tools.
+- Author byline is "RoofHelm Content Team" throughout, consistent with the
+  site's existing Organization-level (not personal) authorship; no invented
+  named "experts" or fabricated quotes, per the brief's factual-accuracy
+  guardrail. Where the brief called for expert quotes, posts instead cite and
+  paraphrase real authoritative sources (ASCE, DOE/ENERGY STAR, FEMA, ICC).
+- Copy stays American English (not the generically-specified British
+  English) to match the existing 24 posts and the site's US-code, US-audience
+  subject matter.
+- Two posts (pole barn cost, steel building cost) explicitly note that
+  RoofHelm has no dedicated calculator for those structures yet, rather than
+  claiming a tool that doesn't exist.
+
 ## 2026-07-08 — Rebrand to RoofHelm
 
 Brand renamed `RoofCalc` → `RoofHelm` everywhere (package name, page copy, wordmark,
