@@ -42,7 +42,7 @@ const DEFAULT_API_URL = "https://openhelm-worker.fly.dev/v1";
 function assertServer(): void {
   if (typeof window !== "undefined") {
     throw new Error(
-      "openhelm-mail must only be used on the server — it carries the product's API key. " +
+      "openhelm-mail must only be used on the server - it carries the product's API key. " +
         "Move this call into a route handler, server action or server component.",
     );
   }
@@ -108,6 +108,16 @@ export interface SendEmailInput {
   clientId?: string;
   /** Reply inside an existing conversation rather than starting a new one. */
   replyToThreadId?: string;
+  /**
+   * Files to attach. 10MB across all of them; the platform enforces that and
+   * rejects the send rather than delivering a truncated message.
+   *
+   * `content` is base64 of the raw bytes — for a string body,
+   * `Buffer.from(ics, "utf8").toString("base64")`. Give `contentType` whenever
+   * you know it: a calendar invite that arrives as application/octet-stream is
+   * a file the recipient's mail client will not offer to add to their calendar.
+   */
+  attachments?: Array<{ filename: string; content: string; contentType?: string }>;
 }
 
 export interface ReplyToInfo {
@@ -176,7 +186,7 @@ export async function sendEmail(input: SendEmailInput): Promise<SendResult> {
   const cfg = mailConfig();
   if (!cfg.apiKey || !cfg.inboxId) {
     console.warn(
-      `[mail] OpenHelm Mail is not configured (OPENHELM_API_KEY / OPENHELM_MAIL_INBOX_ID) — ` +
+      `[mail] OpenHelm Mail is not configured (OPENHELM_API_KEY / OPENHELM_MAIL_INBOX_ID) - ` +
         `skipped "${input.subject}"`,
     );
     return { sent: false, reason: "not_configured" };
@@ -210,6 +220,11 @@ export async function sendEmail(input: SendEmailInput): Promise<SendResult> {
     reply_to: input.replyTo,
     client_id: input.clientId,
     reply_to_thread_id: input.replyToThreadId,
+    attachments: input.attachments?.map((a) => ({
+      filename: a.filename,
+      content_base64: a.content,
+      content_type: a.contentType,
+    })),
     from_name: cfg.fromName ?? undefined,
   };
   for (const k of Object.keys(body)) if (body[k] === undefined) delete body[k];
