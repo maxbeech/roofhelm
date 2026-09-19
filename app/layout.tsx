@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { SITE } from "@/lib/site";
 import { Wordmark } from "@/components/Brand";
+import { OpenHelmAnalytics } from "../lib/openhelm-analytics";
 
 const display = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", weight: ["400", "500", "600", "700"], style: ["normal", "italic"] });
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -130,6 +131,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+        <OpenHelmAnalytics />
       </body>
     </html>
   );
