@@ -13,7 +13,7 @@ import { STATE_SNOW } from "@/lib/ground-snow";
 
 // Only the known calculator slugs (snow-load roof types + the tool family)
 // are valid, so unknown slugs 404 immediately without an on-demand render
-// (keeps the build fully static and Vercel-cheap).
+// (keeps the build fully static).
 export const dynamicParams = false;
 // 1-week ISR (see app/page.tsx for the reasoning).
 export const revalidate = 604800;

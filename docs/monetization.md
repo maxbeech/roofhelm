@@ -55,7 +55,7 @@ buyer for *first*, given limited time, not how much you'll actually make.
 
 **Measuring whether this ranking holds up:** every outbound CPA link now
 carries `utm_source=roofhelm&utm_medium=affiliate|referral&utm_campaign=<category>`
-(`lib/offers.ts` `offerUrl()`), so once Vercel Analytics or an Amazon Associates
+(`lib/offers.ts` `offerUrl()`), so once an analytics tool or an Amazon Associates
 / affiliate dashboard is checked, click-through can be broken out per category
 and compared against this ranking — re-derive the table above from *actual*
 click/conversion data as soon as you have a few weeks of it, rather than only
@@ -76,7 +76,7 @@ Matched to the structure being calculated. Live the moment a tag is set; links
 work (unmonetized) before that.
 
 **Wire it live:** set `NEXT_PUBLIC_AMAZON_AFFILIATE_TAG` (e.g. `roofhelm-20`)
-in Vercel env after joining Amazon Associates. Every Amazon link then carries the
+in the Helm7 product's variables after joining Amazon Associates. Every Amazon link then carries the
 tag automatically.
 
 **Programs to pursue, by attractiveness:**
@@ -117,7 +117,7 @@ the form shows an honest early-access message and a mailto fallback (no fake
 success).
 
 **Resend setup steps:** create a Resend account → API Keys → create key (starts
-`re_...`) → set `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` in Vercel env. To send
+`re_...`) → set `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` in the Helm7 product's variables. To send
 from your own domain (better deliverability, any recipient), add the domain in
 Resend, set the DNS records it gives you, then set `LEAD_FROM_EMAIL` to e.g.
 `RoofHelm <leads@yourdomain.com>`.

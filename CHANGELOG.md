@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-09-30: Hosting moves from Vercel to Helm7
+
+- `npm start` now honours `$PORT`, which Helm7 assigns to the container.
+- Sentry's environment is read from `NODE_ENV` in the server, edge and client configs. `VERCEL_ENV` is never set off Vercel.
+- Stripe checkout's success and cancel URLs fall back to `SITE.url` instead of a `roofhelm.vercel.app` address.
+- Added `test/no-vercel.test.mts`, wired into `npm test`, which fails if application code, `package.json` or a `vercel.json` names Vercel again.
+- README and code comments no longer describe Vercel hosting. No change to the calculators or the lead form.
+
 ## 2026-07-10 — Blog rebuilt: featured images, longer guides, 12 new posts
 
 Reworked the blog from a 24-post, plain-text set into a 36-post library that

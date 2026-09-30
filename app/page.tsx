@@ -14,7 +14,7 @@ import { STATE_SNOW } from "@/lib/ground-snow";
 import { POSTS } from "@/lib/posts";
 import { SITE } from "@/lib/site";
 
-// Vercel free-tier policy: every content page in this app is pre-rendered at
+// Static-first policy: every content page in this app is pre-rendered at
 // build time from in-repo data (no external fetch), so it's already served
 // purely from the static CDN cache with zero function invocations -- the
 // best case ISR can offer. `revalidate` is set anyway (1 week) so the page

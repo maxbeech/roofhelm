@@ -1,6 +1,5 @@
 // NOTE: domain/url drive metadataBase, canonical tags and the sitemap, so
-// they must match the real live domain once RoofHelm.com is pointed at this
-// Vercel project (or set NEXT_PUBLIC_SITE_URL to override).
+// they must match the real live domain (the bare host redirects to www).
 export const SITE = {
   name: "RoofHelm",
   domain: "roofhelm.com",

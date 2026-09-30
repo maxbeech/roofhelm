@@ -79,7 +79,7 @@ const az = (query: string) =>
 // Build the outbound URL, injecting the Amazon Associates tag when present,
 // plus UTM source/medium/campaign params on every outbound link (Amazon and
 // brand alike). This doesn't change where the link goes; it makes click-
-// through measurable per origin category once you wire up Vercel Analytics
+// through measurable per origin category once you wire up an analytics tool
 // or your affiliate dashboard's UTM reports, which is the prerequisite for
 // actually re-prioritizing CPA spend later -- you can't optimize a channel
 // you can't see broken out by page. campaign defaults to "general" when no

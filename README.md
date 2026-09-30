@@ -54,10 +54,12 @@ so the whole tree re-skins from one place.
 
 ## Stack
 
+Hosted on Helm7 (`npm start` honours `$PORT`). Bare `roofhelm.com` redirects to `www.roofhelm.com`. Environment variables are set on the Helm7 product.
+
 Next.js 16 (App Router) + React 19 + Tailwind CSS 4. Pure client-side engines
 (`lib/snow.ts`, `lib/drift.ts`, `lib/unbalanced.ts`, `lib/diagram.ts`, `lib/tools/*.ts`)
 with no database. Every calculator page is fully static (`generateStaticParams` +
-`dynamicParams = false`), so calculator traffic costs zero Vercel function invocations —
+`dynamicParams = false`), so calculator traffic costs no server work —
 only `/api/lead` and `/api/checkout` run as functions, and only on a form submit. The Pro
 report tier uses an env-gated Stripe Checkout that degrades gracefully when keys are absent.
 
@@ -86,7 +88,7 @@ Environment variables (all optional; each feature degrades to an honest state):
 | `LEAD_FROM_EMAIL` | Optional Resend sender; defaults to `onboarding@resend.dev` (test sender) |
 | `LEAD_WEBHOOK_URL` | Alternative/additional CPL sink: POSTs each lead as JSON to a webhook |
 | `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Enables the Pro report Stripe Checkout |
-| `NEXT_PUBLIC_SITE_URL` | Overrides the Stripe success/cancel base URL (defaults to the placeholder Vercel URL in `lib/site.ts`) |
+| `NEXT_PUBLIC_SITE_URL` | Overrides the Stripe success/cancel base URL (defaults to `SITE.url` in `lib/site.ts`; set to `https://www.roofhelm.com` on Helm7) |
 
 `/api/lead` delivers to every configured sink (Resend and/or webhook) and
 succeeds if at least one accepts the lead; with none configured it returns an

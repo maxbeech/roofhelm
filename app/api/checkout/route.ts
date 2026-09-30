@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { SITE } from "@/lib/site";
 
-// Stripe Checkout for the one-time $29 Pro report. Keys are injected as Vercel
-// env vars (STRIPE_SECRET_KEY, STRIPE_PRICE_ID). When absent (e.g. before the
+// Stripe Checkout for the one-time $29 Pro report. Keys are Helm7 variables
+// on the product (STRIPE_SECRET_KEY, STRIPE_PRICE_ID). When absent (e.g. before the
 // Stripe account is wired) the endpoint degrades gracefully: the Pro tier reads
 // "coming soon" via the `message` field instead of throwing a 500.
 // Deliberately uncached, same reasoning as app/api/lead/route.ts: this
@@ -10,7 +11,7 @@ import { NextResponse } from "next/server";
 export async function POST() {
   const secret = process.env.STRIPE_SECRET_KEY;
   const price = process.env.STRIPE_PRICE_ID;
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://roofhelm.vercel.app";
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? SITE.url;
 
   if (!secret || !price) {
     return NextResponse.json(
