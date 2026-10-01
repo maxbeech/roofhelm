@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import CheckoutButton from "@/components/CheckoutButton";
+import PurchaseTracker from "@/components/PurchaseTracker";
 import { PageHeader } from "@/components/ui";
 
 export const metadata: Metadata = {
@@ -39,6 +40,7 @@ function Check() {
 export default function Pricing() {
   return (
     <div>
+      <PurchaseTracker />
       <PageHeader eyebrow="Pricing" title="Simple, honest pricing" width="max-w-5xl">
         The calculator is free forever. When you need to hand a clean, defensible snow load calculation to a
         plan reviewer or a client, the Pro report packages it as a PDF.
