@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ObfuscatedEmail from "./ObfuscatedEmail";
+import { PRO_PRICE, trackEvent } from "@/lib/analytics-events";
 
 // Pro checkout. The pricing page (a Server Component) passes `enabled`, computed
 // from whether the Stripe env vars are configured at build time. When Stripe is
@@ -29,9 +30,11 @@ export default function CheckoutButton({ enabled = false, className }: { enabled
     try {
       const res = await fetch("/api/checkout", { method: "POST" });
       const data = await res.json();
-      if (data.url) { window.location.href = data.url; return; }
+      if (data.url) { trackEvent("begin_checkout", PRO_PRICE); window.location.href = data.url; return; }
+      trackEvent("begin_checkout_failed", { reason: res.ok ? "not_live" : "stripe_error" });
       setError(data.message ?? "Checkout is not available yet. Please check back soon.");
     } catch {
+      trackEvent("begin_checkout_failed", { reason: "network" });
       setError("Something went wrong starting checkout. Please try again.");
     } finally {
       setLoading(false);

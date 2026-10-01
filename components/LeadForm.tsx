@@ -10,6 +10,7 @@
 import { useState } from "react";
 import { CATEGORY_LABEL, CPL_CATEGORIES, type OfferCategory } from "@/lib/offers";
 import { STATE_SNOW } from "@/lib/ground-snow";
+import { trackEvent } from "@/lib/analytics-events";
 // Reuse the same input styling as Calculator/ToolCalculator/DriftCalculator
 // (single source of truth in FormFields.tsx) instead of a parallel definition.
 import { selectCls as field, selectControl as selectField } from "./FormFields";
@@ -74,11 +75,13 @@ export default function LeadForm({
         body: JSON.stringify(payload),
       });
       const data = await res.json();
-      if (data.ok) { setStatus("ok"); return; }
-      if (data.notLive) { setStatus("notLive"); setMessage(data.message); return; }
+      if (data.ok) { trackEvent("generate_lead", { structure }); setStatus("ok"); return; }
+      if (data.notLive) { trackEvent("generate_lead_failed", { reason: "not_live" }); setStatus("notLive"); setMessage(data.message); return; }
+      trackEvent("generate_lead_failed", { reason: res.status === 422 ? "invalid" : "delivery_failed" });
       setStatus("error");
       setMessage(data.message ?? "Something went wrong. Please try again.");
     } catch {
+      trackEvent("generate_lead_failed", { reason: "network" });
       setStatus("error");
       setMessage("Could not reach the server. Please try again.");
     }

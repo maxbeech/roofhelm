@@ -8,6 +8,7 @@ import {
 import { decodeInputs, encodeInputs } from "@/lib/snow-url";
 import { Field, NumberField, selectControl } from "./FormFields";
 import CalcResults from "./CalcResults";
+import { useCalculatorUsed } from "./useCalculatorUsed";
 
 const PITCHES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12]; // rise per 12 run
 
@@ -22,6 +23,7 @@ function matchedPitch(slopeDeg: number): number | "" {
 export default function Calculator({ seed, offerSlug }: { seed?: Partial<SnowInputs>; offerSlug?: string }) {
   const [inp, setInp] = useState<SnowInputs>(() => ({ ...DEFAULT_SNOW, ...seed }));
   const hydrated = useRef(false);
+  const used = useCalculatorUsed("snow-load");
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -36,7 +38,7 @@ export default function Calculator({ seed, offerSlug }: { seed?: Partial<SnowInp
   }, [inp]);
 
   const r = useMemo(() => computeSnow(inp), [inp]);
-  const set = <K extends keyof SnowInputs>(k: K, v: SnowInputs[K]) => setInp((p) => ({ ...p, [k]: v }));
+  const set = <K extends keyof SnowInputs>(k: K, v: SnowInputs[K]) => { used(); setInp((p) => ({ ...p, [k]: v })); };
 
   return (
     <div>

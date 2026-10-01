@@ -7,6 +7,7 @@
 // adding a new calculator is a new lib/tools/*.ts file, not a new component.
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useCalculatorUsed } from "./useCalculatorUsed";
 import type { ToolDef, ToolInputs } from "@/lib/calc-engine";
 import { getTool } from "@/lib/tools";
 import { categoryForSlug } from "@/lib/offers";
@@ -44,6 +45,7 @@ export default function ToolCalculator({ slug }: { slug: string }) {
   const tool = getTool(slug)!;
   const [inputs, setInputs] = useState<ToolInputs>(() => ({ ...tool.defaults }));
   const hydrated = useRef(false);
+  const used = useCalculatorUsed(slug);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -58,7 +60,7 @@ export default function ToolCalculator({ slug }: { slug: string }) {
   }, [inputs]);
 
   const result = useMemo(() => tool.compute(inputs), [tool, inputs]);
-  const set = (key: string, value: number | string) => setInputs((p) => ({ ...p, [key]: value }));
+  const set = (key: string, value: number | string) => { used(); setInputs((p) => ({ ...p, [key]: value })); };
   const offerCategory = categoryForSlug(tool.slug);
   const primary = tool.resultFields.find((f) => f.primary) ?? tool.resultFields[0];
   const primaryValue = primary ? result.values[primary.key] : undefined;

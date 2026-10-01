@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useCalculatorUsed } from "./useCalculatorUsed";
 import { computeDrift, DEFAULT_DRIFT, type DriftInputs } from "@/lib/drift";
 import { Field, NumberField } from "./FormFields";
 import { FigCaption } from "./ui";
@@ -27,8 +28,9 @@ function StepDiagram({ stepPx, driftPx, driftWide, required }:
 
 export default function DriftCalculator() {
   const [inp, setInp] = useState<DriftInputs>(DEFAULT_DRIFT);
+  const used = useCalculatorUsed("drift");
   const r = useMemo(() => computeDrift(inp), [inp]);
-  const set = <K extends keyof DriftInputs>(k: K, v: number) => setInp((p) => ({ ...p, [k]: v }));
+  const set = <K extends keyof DriftInputs>(k: K, v: number) => { used(); setInp((p) => ({ ...p, [k]: v })); };
   const stepPx = Math.max(10, Math.min(70, inp.stepHeight * 7));
   const driftPx = Math.max(0, Math.min(stepPx, r.hd * 7));
   const driftWide = Math.max(20, Math.min(150, r.width * 4));
