@@ -88,11 +88,19 @@ Environment variables (all optional; each feature degrades to an honest state):
 | `LEAD_FROM_EMAIL` | Optional Resend sender; defaults to `onboarding@resend.dev` (test sender) |
 | `LEAD_WEBHOOK_URL` | Alternative/additional CPL sink: POSTs each lead as JSON to a webhook |
 | `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Enables the Pro report Stripe Checkout |
+| `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN` | Error, log and user-feedback reporting to the `roofhelm_web` project in the `maxed-labs` Sentry org. Set before the build, since the browser value is inlined. `SENTRY_AUTH_TOKEN` (optional) uploads source maps |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the Stripe success/cancel base URL (defaults to `SITE.url` in `lib/site.ts`; set to `https://www.roofhelm.com` on Helm7) |
 
 `/api/lead` delivers to every configured sink (Resend and/or webhook) and
 succeeds if at least one accepts the lead; with none configured it returns an
 explicit early-access state.
+
+## Error reporting
+
+Sentry setup lives in `instrumentation.ts` (server and edge), `instrumentation-client.ts` and
+`lib/sentry-options.ts`. Everything sent is scrubbed by `lib/scrub.ts` (fail closed). Server code
+reports through `captureServerError` in `lib/observability.ts`, which keeps ids and codes only.
+The "Send feedback" control is `components/FeedbackButton.tsx`.
 
 ## Rebrand (SnowLoadCalc → RoofCalc → RoofHelm)
 

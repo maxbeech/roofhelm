@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { captureServerError, captureServerMessage, logServer } from "@/lib/observability";
 import { CATEGORY_LABEL, type OfferCategory } from "@/lib/offers";
 
 // CPL lead intake for the quote-based structures (steel buildings, carports,
@@ -112,8 +113,10 @@ async function sendViaResend(lead: Lead): Promise<boolean> {
         html,
       }),
     });
+    if (!res.ok) captureServerMessage("Resend rejected a lead email", { scope: "lead-resend", status: res.status });
     return res.ok;
-  } catch {
+  } catch (err) {
+    captureServerError(err, { scope: "lead-resend" });
     return false;
   }
 }
@@ -128,8 +131,10 @@ async function sendViaWebhook(lead: Lead): Promise<boolean> {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(lead),
     });
+    if (!res.ok) captureServerMessage("Lead webhook rejected a lead", { scope: "lead-webhook", status: res.status });
     return res.ok;
-  } catch {
+  } catch (err) {
+    captureServerError(err, { scope: "lead-webhook" });
     return false;
   }
 }
@@ -200,8 +205,10 @@ export async function POST(req: Request) {
   // Deliver to every configured sink; succeed if at least one accepts the lead.
   const results = await Promise.all([sendViaResend(lead), sendViaWebhook(lead)]);
   if (results.some(Boolean)) {
+    logServer("info", "lead delivered", { scope: "lead", structure, sinks_ok: results.filter(Boolean).length });
     return NextResponse.json({ ok: true });
   }
+  captureServerMessage("Lead could not be delivered to any sink", { scope: "lead", structure });
   return NextResponse.json(
     { ok: false, message: "We could not submit your request just now. Please try again or email hello [at] roofhelm.com." },
     { status: 502 },

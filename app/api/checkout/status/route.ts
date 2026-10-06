@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { captureServerError, captureServerMessage } from "@/lib/observability";
 import { parseSession, SESSION_ID_RE } from "@/lib/checkout-session";
 
 // Confirms with Stripe that a Checkout Session was paid, so the `purchase`
@@ -16,9 +17,13 @@ export async function GET(req: Request) {
       cache: "no-store",
     });
     const parsed = res.ok ? parseSession(await res.json()) : null;
+    if (!parsed) {
+      captureServerMessage("Stripe session lookup failed or was malformed", { scope: "checkout-status", stripe_status: res.status });
+    }
     if (!parsed) return NextResponse.json({ paid: false }, { status: 502 });
     return NextResponse.json(parsed);
-  } catch {
+  } catch (err) {
+    captureServerError(err, { scope: "checkout-status" });
     return NextResponse.json({ paid: false }, { status: 502 });
   }
 }

@@ -5,6 +5,7 @@ import "./globals.css";
 import { SITE } from "@/lib/site";
 import { Wordmark } from "@/components/Brand";
 import { OpenHelmAnalytics } from "../lib/openhelm-analytics";
+import { FeedbackButton } from "@/components/FeedbackButton";
 
 const display = Fraunces({ subsets: ["latin"], variable: "--font-fraunces", weight: ["400", "500", "600", "700"], style: ["normal", "italic"] });
 const sans = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -44,6 +45,7 @@ function Header() {
                 {n.label}
               </Link>
             ))}
+            <FeedbackButton variant="nav" />
             <Link href="/pricing"
               className="border border-ink-900 px-3 py-1.5 text-[12px] font-semibold uppercase tracking-wider text-ink-900 transition hover:bg-ink-900 hover:text-paper">
               Pro offprint
@@ -58,6 +60,7 @@ function Header() {
                 {NAV.map((n) => (
                   <Link key={n.href} href={n.href} className="block px-3 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50">{n.label}</Link>
                 ))}
+                <FeedbackButton variant="menu" />
               </div>
             </details>
           </nav>
@@ -104,6 +107,7 @@ function Footer() {
                 {c.links.map((l) => (
                   <li key={l.href}><Link href={l.href} className="text-ink-600 underline-offset-4 transition hover:text-frost-600 hover:underline">{l.label}</Link></li>
                 ))}
+                {c.head === "Appendices" && <li><FeedbackButton variant="footer" /></li>}
               </ul>
             </div>
           ))}

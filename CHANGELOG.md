@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-06: Sentry standard
+
+- One shared scrubber (`lib/scrub.ts`) for events, logs, breadcrumbs and transactions. It redacts emails, phone numbers, tokens and API keys, strips query strings, truncates long text, uses linear-time patterns and drops the payload if scrubbing ever throws.
+- One shared options helper (`lib/sentry-options.ts`) for client, server and edge: logs on, console forwarding, light trace sampling. `sentry.server.config.ts` and `sentry.edge.config.ts` are gone; `instrumentation.ts` does both.
+- "Send feedback" in the header, mobile menu and footer, opening Sentry's feedback form (reports land in `roofhelm_web`).
+- Checkout, checkout status and lead delivery failures now raise Sentry issues through `captureServerError`, with ids and status codes only. Added `app/error.tsx` and `app/global-error.tsx`.
+- `withSentryConfig` with a randomised tunnel route and source map upload. New `.env.example`.
+- Added `test/sentry-scrub.test.mts`, wired into `npm test`.
+
 ## 2026-09-30: Hosting moves from Vercel to Helm7
 
 - `npm start` now honours `$PORT`, which Helm7 assigns to the container.
