@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-08: Machine-readability foundations
+
+- **Canonical host.** `SITE.url` is `https://www.roofhelm.com`, the host the site serves after the bare-domain redirect. Canonicals, the sitemap, JSON-LD and Breadcrumbs no longer point at a redirect.
+- **llms.txt.** `app/llms.txt/route.ts` serves `/llms.txt`, generated from the roof-type, tool, essay and pricing data so it cannot drift from the site.
+- **AI crawlers.** `app/robots.ts` names GPTBot, ClaudeBot, PerplexityBot, Google-Extended and CCBot explicitly, all allowed.
+- **Organization and WebSite JSON-LD** on the home page.
+- Added `test/geo-surfaces.test.mts`, wired into `npm test`.
+
 ## 2026-10-07: Sentry scrubber security pass
 
 - **Long secrets.** JWTs, bearer tokens, vendor keys (`sk_`, `whsec_`, `hlm_sk_`, `sntrys_`) and `key=value` secrets of any length are now redacted whole. The old bounded patterns left the tail of anything longer than their limit.
