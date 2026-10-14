@@ -2,7 +2,29 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /**
+   * Addresses Google knows from posts that were never published here. They 301
+   * to the closest live page until the post itself ships (remove its entry then).
+   */
+  async redirects() {
+    const toBlog = [
+      "rafter-vs-truss",
+      "steel-building-cost-per-square-foot",
+      "pole-barn-cost-worked-estimate",
+      "roof-truss-calculator-how-many-you-need",
+      "attic-insulation-r-value-by-climate-zone",
+      "how-to-calculate-rafter-length",
+      "how-to-calculate-roof-pitch",
+      "manual-j-explained-hvac-load-sizing",
+      "how-much-does-a-new-roof-cost-2026",
+      "stamped-engineering-drawings-explained",
+    ];
+    return [
+      ...toBlog.map((slug) => ({ source: `/blog/${slug}`, destination: "/blog", statusCode: 301 as const })),
+      { source: "/blog/asce-7-22-code-adoption-2026", destination: "/blog/asce-7-22-snow-load-changes", statusCode: 301 as const },
+      { source: "/blog/free-snow-load-calculators-compared", destination: "/calculators", statusCode: 301 as const },
+    ];
+  },
 };
 
 /**
