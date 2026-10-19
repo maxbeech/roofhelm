@@ -32,6 +32,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const p = getPost(slug);
   if (!p) notFound();
+  const related = (p.related ?? []).map((s) => getPost(s)).filter((r): r is NonNullable<typeof r> => !!r);
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-10">
@@ -57,6 +58,20 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <p className="mt-1.5 text-sm leading-relaxed text-ink-500">Get your design roof snow load in seconds with the free ASCE 7-22 calculator.</p>
         <CTA href="/" className="mt-4">Open the calculator</CTA>
       </div>
+
+      {related.length > 0 && (
+        <section className="mt-10">
+          <h2 className="text-sm font-semibold text-ink-700">Related guides</h2>
+          <ul className="mt-3 space-y-2 text-[15px] leading-6">
+            {related.map((r) => (
+              <li key={r.slug}>
+                <Link href={`/blog/${r.slug}`} className="font-medium text-ink-900 underline decoration-ink-300 underline-offset-4 hover:decoration-frost-500">{r.title}</Link>
+                <span className="text-ink-500">: {r.description}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="mt-10">
         <h2 className="text-sm font-semibold text-ink-700">Related</h2>

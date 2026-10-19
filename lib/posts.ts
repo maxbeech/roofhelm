@@ -9,6 +9,8 @@ export interface Post {
   date: string; // ISO; set from the build date of the product
   readMins: number;
   keyword: string;
+  /** Slugs of related guides, rendered as contextual links under the post. */
+  related?: string[];
   body: PostSection[];
 }
 
@@ -70,11 +72,15 @@ export const POSTS: Post[] = [
     title: "Ground Snow Load vs Roof Snow Load: The Difference",
     description: "Why roof snow load is usually less than ground snow load, and the exposure, thermal and importance factors that connect them.",
     date: D, readMins: 5, keyword: "ground snow load vs roof snow load",
+    related: ["ground-snow-load-explained", "how-to-calculate-roof-snow-load", "exposure-thermal-importance-factors", "ground-snow-load-by-state"],
     body: [
       { p: ["People often use 'snow load' to mean both the snow on the ground and the snow on the roof, but ASCE 7 treats them as two different numbers connected by a formula."] },
       { h: "Ground snow load", p: ["Pg is what accumulates on open ground. It is a fixed property of your location and the input to the whole calculation."] },
       { h: "Roof snow load", p: ["The flat-roof load Pf = 0.7 × Ce × Ct × Is × Pg is what the roof actually carries. The 0.7 factor reflects that wind and a little melting remove some snow from a roof compared to open ground. Exposure (Ce), warmth (Ct) and importance (Is) then adjust it up or down."] },
       { h: "So which is bigger?", p: ["On a normal heated, partially sheltered house the roof load is about 60–70% of the ground load. But a fully exposed, unheated or essential-facility roof can have factors that push the roof load close to the ground value, and occasionally above it. Always run the conversion rather than assuming."] },
+      { h: "A worked example", p: ["Take a heated building in open terrain with Pg = 30 psf and an ordinary occupancy. Using ASCE 7-22 Chapter 7 factors for a fully exposed roof in surface roughness category B (Ce = 0.9), a heated structure (Ct = 1.0) and Risk Category II (Is = 1.0), the flat-roof load is Pf = 0.7 × 0.9 × 1.0 × 1.0 × 30 = 18.9 psf, about 63% of the ground value. Move the same building to a sheltered site (Ce = 1.2) and Pf = 0.7 × 1.2 × 1.0 × 1.0 × 30 = 25.2 psf, or 84% of ground. Same ground snow, very different roof load."] },
+      { h: "Why the same ground load gives different roof loads", p: ["Exposure changes how much snow the wind strips off the roof. Thermal condition changes how much melts from heat escaping through the roof, so unheated structures such as open sheds carry more. The importance factor raises the design load for buildings whose failure would cost more, such as schools or emergency facilities. Each of these is explained on its own in our guide to exposure, thermal and importance factors."] },
+      { h: "Where each number comes from", p: ["Ground snow load comes from your jurisdiction or the ASCE 7 Hazard Tool; our ground snow load explainer and the per-state pages show how to look it up. The roof load is then produced by the calculation in our step-by-step guide, and the RoofHelm calculator applies all of it and shows each factor it used. Sloped, drifting and unbalanced cases build on the flat-roof value, so getting this first conversion right matters."] },
     ],
   },
   {
@@ -155,11 +161,15 @@ export const POSTS: Post[] = [
     title: "Why Flat Roofs Are Hardest on Snow",
     description: "Flat roofs carry the full snow load with no shedding, plus rain-on-snow and ponding risk. What to watch for and how to design.",
     date: D, readMins: 5, keyword: "flat roof snow load",
+    related: ["how-to-calculate-roof-snow-load", "snow-drift-loads-on-roofs", "roof-collapse-warning-signs", "ice-dam-formation-and-prevention"],
     body: [
       { p: ["Flat and low-slope roofs are the toughest case for snow because they get no help from gravity (nothing slides off), and they invite a couple of extra load cases."] },
       { h: "No slope shedding", p: ["With essentially no slope, the slope factor Cs is 1.0, so the roof carries the full flat-roof load Pf. There is no reduction for shedding the way a steep roof gets."] },
       { h: "Rain-on-snow and the minimum", p: ["In mild-winter areas (Pg ≤ 20 psf) a low-slope roof picks up a 5 psf rain-on-snow surcharge, because rain soaks into snow that can't drain. Low-slope roofs also must meet the §7.3.4 minimum load, which can govern in light-snow regions."] },
       { h: "Drainage and ponding", p: ["Beyond snow, a flat roof must drain meltwater. Blocked drains plus melting snow lead to ponding, which adds weight and can spiral. Keep drains and scuppers clear through winter, and design positive drainage."] },
+      { h: "Drifting and sliding onto flat roofs", p: ["A flat roof is rarely alone. Where it sits lower than an adjacent taller wall or roof, wind-blown snow collects against the step in a drift, and snow can also slide onto it from the higher roof above. Both are separate ASCE 7 load cases added to the balanced load, and in the drift zone they can be several times the flat-roof value. Parapets and rooftop equipment create smaller drifts of their own. Our guides to snow drift loads and sliding snow loads cover each case."] },
+      { h: "Reading the numbers: what to check", p: ["For a flat or low-slope roof, work through the same sequence: ground snow load Pg, then Pf from Equation 7.3-1 with the exposure, thermal and importance factors, then the minimum-load check and the rain-on-snow surcharge where they apply, then any drift or sliding surcharge. The governing design load is the largest case, not the sum of all of them. Our step-by-step calculation guide walks through the equation, and the flat roof calculator applies each check and shows the result."] },
+      { h: "Warning signs and winter care", p: ["On an existing flat roof, watch for standing water that persists after melt, deflection or sagging between supports, and cracking or sticking doors and windows below after heavy snow. These can indicate the roof is carrying more than expected. See our roof collapse warning signs guide, and have a licensed structural engineer assess anything that looks wrong rather than relying on a general rule."] },
     ],
   },
 ];
@@ -187,6 +197,7 @@ const WEEK2_POSTS: Post[] = [
     title: "Roof Snow Removal: When and How to Rake",
     description: "When roof snow load approaches the design limit, raking is safer than waiting. Here's how to judge the risk and remove snow without getting on the roof.",
     date: "2026-06-20", readMins: 6, keyword: "roof snow removal",
+    related: ["how-much-snow-can-my-roof-hold", "roof-collapse-warning-signs", "how-much-does-snow-weigh", "ice-dam-formation-and-prevention"],
     body: [
       { p: ["Removing snow from a residential roof is not always necessary, but after a major storm, especially in regions where roofs are not designed for heavy loads, it can prevent a collapse. The key is knowing when the load is actually dangerous and how to remove it safely."] },
       { h: "When should you remove roof snow?", p: ["Remove snow when: (1) your estimated current load exceeds 75% of your design snow load; (2) snow has accumulated over several storms without melting between them; (3) the snow is heavy and wet, not light powder; or (4) you see structural warning signs like sticking doors, cracked drywall or sagging ceilings."] },
@@ -194,6 +205,9 @@ const WEEK2_POSTS: Post[] = [
       { h: "How to use a roof rake", p: ["A roof rake is an aluminium or plastic blade on a long telescoping handle, usually 12–21 feet. Position yourself well away from the eave edge so that snow falling off the roof doesn't land on you. Pull snow down the slope in strips; don't drag it horizontally. Clear 2–4 feet up from the eave as a priority: removing the lower section takes the most weight off the eave where ice dams form and where structural stress concentrates."] },
       { h: "Hire a professional for steep or large roofs", p: ["For steep slopes, multi-story buildings or very heavy accumulation, hire a licensed roofing professional with fall-protection equipment and snow-removal experience. Costs vary by region and roof size."] },
       { h: "After removal", p: ["After clearing, run the load calculation again with the reduced estimated depth to confirm you're back within the safe zone. Monitor for the next storm and consider whether your roof needs a professional structural assessment if it has seen repeated near-limit loading."] },
+      { h: "How to judge the load before you rake", p: ["Rake based on weight, not depth alone. Measure the depth, estimate the density (fresh powder around 5 pcf, settled snow 10-15 pcf, wet compacted snow up to 20-25 pcf), and multiply depth in feet by density to get psf. Compare the result with your design snow load from your permit or structural drawings, or estimate it with the calculator. Our guide to how much snow your roof can hold and the piece on how much snow weighs go through this step in detail."] },
+      { h: "Ice dams and eaves", p: ["Clearing the lower few feet of snow also helps with ice dams, which form when heat escaping from the building melts snow that then refreezes at the cold eave. If you see icicles building and water backing up under the shingles, raking the eave edge helps in the short term, while insulation and ventilation address the cause. We explain the mechanism in our ice dam formation and prevention guide."] },
+      { h: "Mistakes to avoid", p: ["Do not chip at ice, which can damage roofing. Do not rake one side only: clear evenly so the structure is not loaded unevenly. Do not work under an overhang where the snow will release onto you, and keep clear of power lines at the service entrance. And do not treat raking as a substitute for knowing your roof's design load: if you see warning signs, read our roof collapse warning signs guide and call a professional."] },
     ],
   },
   {
