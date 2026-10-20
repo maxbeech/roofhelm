@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-20
+
+- Deliver the canonical five-section SEO/GEO content plan with current Keyword Planner provenance, explicit unverified demand, product-grounded scope and publishing/measurement limits. No application behaviour or routes changed.
+
+
 ## 2026-10-08: Machine-readability foundations
 
 - **Canonical host.** `SITE.url` is `https://www.roofhelm.com`, the host the site serves after the bare-domain redirect. Canonicals, the sitemap, JSON-LD and Breadcrumbs no longer point at a redirect.

@@ -147,3 +147,7 @@ HVAC load calculator, which is a quick BTU/sq ft planning number, not a Manual J
 All of it must still be checked by a licensed engineer or contractor before you build,
 submit for permit, or buy equipment. Always confirm the governing ground snow load,
 local code span tables, and current material/labor costs for your exact site.
+
+## Canonical content plan
+
+The current editorial priorities and research provenance live in [docs/seo_geo_content_plan.md](docs/seo_geo_content_plan.md). It separates verified keyword metrics from unverified opportunities and planning topics from shipped functionality.
