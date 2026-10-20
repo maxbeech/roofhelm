@@ -62,6 +62,12 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
           your local building department. Many {s.name} jurisdictions adopt a published county or town value.
           {s.caseStudy && " Because elevation drives the value here, two nearby sites can differ a lot, so always use the value for your exact address."}
         </p>
+        {s.authority && (
+          <p className="mt-3">
+            <strong className="font-medium text-ink-700">Governing source.</strong> {s.authority.text}{" "}
+            <a href={s.authority.href} target="_blank" rel="noopener noreferrer" className="font-medium text-frost-700 hover:underline">{s.authority.linkText}</a>
+          </p>
+        )}
       </section>
 
       <section className="mt-8">

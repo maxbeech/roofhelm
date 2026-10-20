@@ -19,6 +19,15 @@ export interface StateSnow {
   typicalPg: number; // representative populated value (calculator default on the page)
   caseStudy: boolean; // elevation-driven; ASCE map requires a site-specific study
   note: string; // honest one-line qualifier for this state
+  authority?: StateAuthority; // governing source, only where a primary document has been checked
+}
+
+// The official document or page that sets a state's design value, shown on the state page.
+// Add one only after opening the primary source; test/state-authority.test.mts guards the shape.
+export interface StateAuthority {
+  text: string; // one or two sentences on what the source requires or publishes
+  linkText: string; // anchor text for the link
+  href: string; // https URL of the primary document or official page
 }
 
 // Helper: a quick qualitative band from the typical value (used in copy).
@@ -74,10 +83,10 @@ export const STATE_SNOW: StateSnow[] = [
   { slug: "minnesota", name: "Minnesota", abbr: "MN", lowPg: 35, highPg: 60, typicalPg: 50, caseStudy: false, note: "High to very high ground snow load statewide." },
   { slug: "mississippi", name: "Mississippi", abbr: "MS", lowPg: 0, highPg: 5, typicalPg: 0, caseStudy: false, note: "Effectively no snow design case." },
   { slug: "missouri", name: "Missouri", abbr: "MO", lowPg: 15, highPg: 25, typicalPg: 20, caseStudy: false, note: "Low to moderate ground snow load." },
-  { slug: "montana", name: "Montana", abbr: "MT", lowPg: 30, highPg: 130, typicalPg: 40, caseStudy: true, note: CS("Valley towns are high; the mountains are very high.") },
+  { slug: "montana", name: "Montana", abbr: "MT", lowPg: 30, highPg: 130, typicalPg: 40, caseStudy: true, note: CS("Valley towns are high; the mountains are very high."), authority: { text: "Montana requires a minimum design roof snow load of 30 psf after allowed reductions. The State Building Codes Bureau says the design snow load shall be based on the ASCE 7 Hazard Tool, and its phone line is (406) 841-2056.", linkText: "Montana Building Codes Bureau: snow load information", href: "https://bsd.dli.mt.gov/Building-Codes-Permits/snow-load-information" } },
   { slug: "nebraska", name: "Nebraska", abbr: "NE", lowPg: 20, highPg: 35, typicalPg: 30, caseStudy: false, note: "Moderate to high ground snow load." },
   { slug: "nevada", name: "Nevada", abbr: "NV", lowPg: 0, highPg: 120, typicalPg: 10, caseStudy: true, note: CS("Las Vegas and the low desert are near zero; the Sierra and high basins are very high.") },
-  { slug: "new-hampshire", name: "New Hampshire", abbr: "NH", lowPg: 50, highPg: 100, typicalPg: 60, caseStudy: true, note: CS("High statewide; the White Mountains are very high.") },
+  { slug: "new-hampshire", name: "New Hampshire", abbr: "NH", lowPg: 50, highPg: 100, typicalPg: 60, caseStudy: true, note: CS("High statewide; the White Mountains are very high."), authority: { text: "New Hampshire's ground snow loads come from a 2002 ERDC/CRREL study that sets a value for each of the state's 259 towns, and the state building code amendments allow its use. Sites above 2,500 ft still need a site-specific case study.", linkText: "Ground Snow Loads for New Hampshire (ERDC/CRREL, 2002)", href: "https://apps.dtic.mil/sti/pdfs/ADA399953.pdf" } },
   { slug: "new-jersey", name: "New Jersey", abbr: "NJ", lowPg: 20, highPg: 30, typicalPg: 25, caseStudy: false, note: "Moderate ground snow load, a little higher in the northwest." },
   { slug: "new-mexico", name: "New Mexico", abbr: "NM", lowPg: 5, highPg: 60, typicalPg: 15, caseStudy: true, note: CS("The southern deserts are low; the northern mountains are high.") },
   { slug: "new-york", name: "New York", abbr: "NY", lowPg: 25, highPg: 70, typicalPg: 40, caseStudy: true, note: CS("NYC and Long Island are moderate; the Tug Hill, Adirondacks and Catskills are very high.") },

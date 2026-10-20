@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-10-20: State page governing sources
+
+- **Governing source on state pages.** `lib/ground-snow.ts` takes an optional `authority` (copy, link text and an https link) that `app/states/[slug]/page.tsx` renders as a "Governing source" line. Montana cites the Building Codes Bureau snow load page (30 psf minimum after allowed reductions, ASCE 7 Hazard Tool, phone line). New Hampshire cites the 2002 ERDC/CRREL study (value for each of 259 towns, sites above 2,500 ft need a site-specific case study).
+- Other states show no source line until its primary document has been checked. Their ground snow values, notes and calculators are unchanged.
+- Added `test/state-authority.test.mts`, wired into `npm test`.
+
 ## 2026-10-20
 
 - Deliver the canonical five-section SEO/GEO content plan with current Keyword Planner provenance, explicit unverified demand, product-grounded scope and publishing/measurement limits. No application behaviour or routes changed.

@@ -18,7 +18,7 @@ Live: https://roofhelm.com *(pending DNS cutover; see "Rebrand" below)*
   blanket sized to the load, with a toggle to the §7.6.1 leeward-drift profile.
 - **Per-roof-type calculators** for flat, pitched/gable, metal building, carport,
   shed/monoslope, gambrel, greenhouse, and a ground-to-roof converter.
-- **Ground snow load by state**, **snow drift calculator** (§7.7).
+- **Ground snow load by state** (each page names its governing source where it has been checked, such as Montana and New Hampshire), **snow drift calculator** (§7.7).
 
 ### The wider calculator suite (added in the RoofHelm expansion)
 - **Roof geometry & framing**: roof pitch (rise/run → angle/slope %/roof factor),
