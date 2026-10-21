@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+import { PRO_PRICE } from "@/lib/analytics-events";
 import { type SnowInputs, type SnowResult, interpretSnow } from "@/lib/snow";
+import { encodeInputs } from "@/lib/snow-url";
 import { computeUnbalanced } from "@/lib/unbalanced";
 import { categoryForSlug } from "@/lib/offers";
 import RoofDiagram from "./RoofDiagram";
@@ -107,11 +110,18 @@ export default function CalcResults({ inp, r, offerSlug }: { inp: SnowInputs; r:
         ))}
       </ul>
 
-      <button onClick={() => window.print()}
-        className="inline-flex items-center gap-2 border border-ink-900 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-900 transition hover:bg-ink-900 hover:text-paper print:hidden">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" /></svg>
-        Print or save as PDF
-      </button>
+      <div className="flex flex-wrap items-center gap-3 print:hidden">
+        <button onClick={() => window.print()}
+          className="inline-flex items-center gap-2 border border-ink-900 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-900 transition hover:bg-ink-900 hover:text-paper">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" className="stroke-current" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" /></svg>
+          Print or save as PDF
+        </button>
+        {/* The Pro report is built from these exact numbers, so they travel in the link. */}
+        <Link href={`/pricing?${encodeInputs(inp)}`}
+          className="inline-flex items-center gap-2 border border-frost-600 bg-frost-600 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-paper transition hover:bg-frost-700">
+          Pro report for these numbers · ${PRO_PRICE.value}
+        </Link>
+      </div>
 
       <SupplierModule
         category={offerCategory}

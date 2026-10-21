@@ -37,6 +37,40 @@ export function encodeInputs(inp: SnowInputs): string {
   return p.toString();
 }
 
+/**
+ * Strict counterpart to decodeInputs, for the paid path. Every key must be
+ * present and valid. Nothing is clamped and nothing falls back to a default,
+ * because a Pro report built from numbers the buyer never entered is worse
+ * than no report. Returns null on the first problem.
+ */
+export function parseStrictInputs(search: string): SnowInputs | null {
+  const p = new URLSearchParams(search);
+  const num = (key: string, min: number, max: number): number | null => {
+    const v = p.get(key);
+    if (v === null || v.trim() === "") return null;
+    const n = Number(v);
+    return Number.isFinite(n) && n >= min && n <= max ? n : null;
+  };
+  const one = <T extends string>(key: string, allowed: T[]): T | null => {
+    const v = p.get(key);
+    return v !== null && allowed.includes(v as T) ? (v as T) : null;
+  };
+
+  const pg = num("pg", 0, 400);
+  const slopeDeg = num("sl", 0, 70);
+  const width = num("w", 5, 500);
+  const area = num("ar", 0, 1000000);
+  const risk = one("r", RISK);
+  const terrain = one("te", TERRAIN);
+  const roofExposure = one("ex", EXPOSURE);
+  const thermal = one("th", THERMAL);
+  const surface = one("su", SURFACE);
+  const shape = one("sh", SHAPE);
+  if (pg === null || slopeDeg === null || width === null || area === null) return null;
+  if (!risk || !terrain || !roofExposure || !thermal || !surface || !shape) return null;
+  return { pg, risk, terrain, roofExposure, thermal, surface, shape, slopeDeg, width, area };
+}
+
 export function decodeInputs(search: string, fallback: Partial<SnowInputs> = {}): SnowInputs {
   const base = { ...DEFAULT_SNOW, ...fallback };
   const p = new URLSearchParams(search);

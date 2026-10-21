@@ -11,6 +11,17 @@
 - Deliver the canonical five-section SEO/GEO content plan with current Keyword Planner provenance, explicit unverified demand, product-grounded scope and publishing/measurement limits. No application behaviour or routes changed.
 
 
+## 2026-10-10: Pro report delivery and a live buy button
+
+- **The buy button reads the server's Stripe variables on every request.** `/pricing` used to compute `PRO_ENABLED` at build time on a page cached for a week, so a build without the variables kept saying "in press" while production had the keys. The page is now rendered per request (`dynamic = "force-dynamic"`); calculators, state pages and the blog stay static.
+- **Honest states.** Checkout off shows one sentence. Checkout on without calculator numbers sends the buyer to the calculator. With numbers it shows the buyer's roof, the design load and the button.
+- **The PDF.** Built from the buyer's inputs by `computeSnow`, `computeUnbalanced` and `interpretSnow`, laid out with pdf-lib (new dependency, MIT, pure JS): inputs, factors with code references, the steps to the design load, the §7.6.1 unbalanced case for gable and hip roofs, a checklist of what is not computed, and the disclaimer. Project and site come from optional Checkout fields.
+- **Verified delivery.** The return page and `/api/report` fetch the Checkout Session from Stripe and require a paid, one-time payment for `STRIPE_PRICE_ID`. The success URL alone grants nothing. Links work for 30 days.
+- **Webhook.** `/api/stripe/webhook` verifies the signature over the raw body (by hand, no Stripe SDK), ignores other products' events by price id, de-duplicates by event id with the claim released on failure, answers 500 on failure and emails the PDF when OpenHelm Mail is configured.
+- **Calculator link.** Each snow load result links to the pricing page with its inputs. `parseStrictInputs` in `lib/snow-url.ts` rejects missing or out-of-range values instead of defaulting them.
+- **Tests.** Four new suites, 260 checks: `pro-report`, `checkout-verify`, `stripe-webhook`, `pro-flag`.
+- New environment variables: `STRIPE_WEBHOOK_SECRET`, and `OPENHELM_API_KEY` with `OPENHELM_MAIL_INBOX_ID` for the email.
+
 ## 2026-10-08: Machine-readability foundations
 
 - **Canonical host.** `SITE.url` is `https://www.roofhelm.com`, the host the site serves after the bare-domain redirect. Canonicals, the sitemap, JSON-LD and Breadcrumbs no longer point at a redirect.

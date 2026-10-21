@@ -59,9 +59,11 @@ Hosted on Helm7 (`npm start` honours `$PORT`). Bare `roofhelm.com` redirects to 
 Next.js 16 (App Router) + React 19 + Tailwind CSS 4. Pure client-side engines
 (`lib/snow.ts`, `lib/drift.ts`, `lib/unbalanced.ts`, `lib/diagram.ts`, `lib/tools/*.ts`)
 with no database. Every calculator page is fully static (`generateStaticParams` +
-`dynamicParams = false`), so calculator traffic costs no server work —
-only `/api/lead` and `/api/checkout` run as functions, and only on a form submit. The Pro
-report tier uses an env-gated Stripe Checkout that degrades gracefully when keys are absent.
+`dynamicParams = false`), so calculator traffic costs no server work.
+The server runs only for `/api/lead`, the Pro report routes (`/api/checkout`, `/api/report`,
+`/api/stripe/webhook`) and the `/pricing` page, which is rendered per request on purpose (see
+"Pro report" below). The Pro report tier uses an env-gated Stripe Checkout that degrades
+gracefully when keys are absent.
 
 ## Monetization (CPA + CPL)
 
@@ -87,13 +89,45 @@ Environment variables (all optional; each feature degrades to an honest state):
 | `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` | Emails each lead to your inbox via Resend (CPL goes live) |
 | `LEAD_FROM_EMAIL` | Optional Resend sender; defaults to `onboarding@resend.dev` (test sender) |
 | `LEAD_WEBHOOK_URL` | Alternative/additional CPL sink: POSTs each lead as JSON to a webhook |
-| `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Enables the Pro report Stripe Checkout |
+| `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Turns the Pro report buy button on. Read on every request, so adding them needs a restart but not a rebuild. `STRIPE_PRICE_ID` must be the one-time price for the report |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret (`whsec_...`) of the Stripe webhook endpoint. Without it `/api/stripe/webhook` answers 503 and only the return page delivers the PDF |
+| `OPENHELM_API_KEY` + `OPENHELM_MAIL_INBOX_ID` | Lets the webhook email the PDF to the buyer (OpenHelm Mail, `lib/openhelm-mail.ts`). Without them nothing is emailed |
 | `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN` | Error, log and user-feedback reporting to the `roofhelm_web` project in the `maxed-labs` Sentry org. Set before the build, since the browser value is inlined. `SENTRY_AUTH_TOKEN` (optional) uploads source maps |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the Stripe success/cancel base URL (defaults to `SITE.url` in `lib/site.ts`; set to `https://www.roofhelm.com` on Helm7) |
 
 `/api/lead` delivers to every configured sink (Resend and/or webhook) and
 succeeds if at least one accepts the lead; with none configured it returns an
 explicit early-access state.
+
+## Pro report (paid PDF)
+
+A $29 one-time Stripe Checkout sells a PDF of the buyer's own snow load calculation.
+
+1. A calculator result links to `/pricing?<its inputs>`. The pricing page shows the buyer's roof
+   and the design load before they pay. No inputs in the URL means no buy button, only a link back
+   to the calculator: the report is never built from default numbers.
+2. `/api/checkout` validates the inputs strictly (`parseStrictInputs` in `lib/snow-url.ts`) and
+   stores them in the Checkout Session metadata. Project name and site address are optional
+   Checkout fields.
+3. Stripe returns the buyer to `/pricing?status=success&session_id=...`. The page fetches the
+   session from Stripe and shows the download link only if it is a paid, one-time payment for
+   `STRIPE_PRICE_ID` (`verifyPaidSession` in `lib/checkout-session.ts`). The URL alone grants nothing.
+4. `/api/report?session_id=...` repeats that check on every request and builds the PDF from the
+   stored inputs with the same engines the calculators use (`lib/pro-report.ts`, laid out by
+   `lib/pro-report-pdf.ts` with pdf-lib). Nothing is stored. The link works for 30 days
+   (`DOWNLOAD_WINDOW_DAYS` in `lib/pro-config.ts`).
+5. `/api/stripe/webhook` is the safety net for buyers who pay and close the tab. It verifies the
+   signature over the raw body, ignores events for any other price, and emails the PDF if mail is
+   configured. It answers 500 on failure so Stripe retries. Register it in Stripe for
+   `checkout.session.completed` and `checkout.session.async_payment_succeeded`, on the `www` host
+   (the bare domain redirects, and Stripe treats a redirect as a failure).
+
+Why `/pricing` is dynamic: whether the button shows depends on server variables, and a static page
+freezes that at build time. The page is light and makes no Stripe call unless the visitor is
+returning from Checkout. Calculators, state pages and the blog stay static.
+
+Event de-duplication is held in process memory, and the email carries a client id derived from the
+Checkout Session, so a repeat delivery cannot send a second copy. There is no purchases table.
 
 ## Error reporting
 
@@ -122,7 +156,7 @@ cannot do on its own:**
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm test         # engine + URL + drift + unbalanced + diagram + offers + tools + copy-style
+npm test         # engine + URL + drift + unbalanced + diagram + offers + tools + copy-style + Pro report, checkout and webhook
 npm run build
 ```
 
