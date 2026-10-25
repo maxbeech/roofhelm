@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-25: Stop reporting scanner probes as errors
+
+- **Why.** Crawlers and exploit scanners POST to a page with `Accept: text/x-component`, a made-up `Next-Action` id and an `x-middleware-subrequest` header. Next.js refuses the request, then throws `Invariant: Expected RSC response, got text/plain` and Sentry opened an issue for each. Nothing was wrong with the app.
+- **Change.** `lib/sentry-probe-filter.ts` (`isScannerProbeEvent`) drops exactly that error when the request is a POST carrying an RSC or action marker. It runs first in `beforeSend` in `lib/sentry-options.ts`. Any other error, including other invariants, still reports. This app has no proxy file, so it relies on Next 16 ignoring the header from outside.
+- **Also.** `lib/sentry-filters.ts` ignores the browser-bridge rejection `Object Not Found Matching Id:1, MethodName:update, ParamCount:4` (ROOFHELM_WEB-5): an injected script rejecting a bare string, never our code.
+- **Tests.** The filter and `sharedSentryOptions().beforeSend` are covered in the probe filter test.
+
 ## 2026-10-20: State page governing sources
 
 - **Governing source on state pages.** `lib/ground-snow.ts` takes an optional `authority` (copy, link text and an https link) that `app/states/[slug]/page.tsx` renders as a "Governing source" line. Montana cites the Building Codes Bureau snow load page (30 psf minimum after allowed reductions, ASCE 7 Hazard Tool, phone line). New Hampshire cites the 2002 ERDC/CRREL study (value for each of 259 towns, sites above 2,500 ft need a site-specific case study).

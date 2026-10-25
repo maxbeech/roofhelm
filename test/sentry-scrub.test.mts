@@ -83,7 +83,7 @@ check("feedback button renders", renderToStaticMarkup(createElement(FeedbackButt
 const layout = readFileSync("app/layout.tsx", "utf8");
 check("layout has nav, menu and footer feedback controls", ["nav", "menu", "footer"].every((v) => layout.includes(`<FeedbackButton variant="${v}"`)));
 const shared = readFileSync("lib/sentry-options.ts", "utf8");
-check("shared options wire logs and every scrubber", ["enableLogs: true", "beforeSend: scrubEvent", "beforeSendLog: scrubLog", "beforeSendTransaction", "beforeBreadcrumb", "consoleLoggingIntegration"].every((s) => shared.includes(s)));
+check("shared options wire logs and every scrubber", ["enableLogs: true", "beforeSend: beforeSendEvent", "scrubEvent(...args)", "beforeSendLog: scrubLog", "beforeSendTransaction", "beforeBreadcrumb", "consoleLoggingIntegration"].every((s) => shared.includes(s)));
 check("swallow sites call the capture helper", ["app/api/checkout/route.ts", "app/api/checkout/status/route.ts", "app/api/lead/route.ts"].every((f) => readFileSync(f, "utf8").includes("captureServerError")));
 check("client init uses tunnel content-type fix and own button", /application\/x-sentry-envelope/.test(readFileSync("instrumentation-client.ts", "utf8")) && /autoInject: false/.test(readFileSync("instrumentation-client.ts", "utf8")));
 

@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/nextjs";
 import { sharedSentryOptions } from "@/lib/sentry-options";
+import { CLIENT_IGNORED_ERROR_PATTERNS } from "@/lib/sentry-filters";
 
 /**
  * Browser error reporting. The feedback integration backs the "Send feedback"
@@ -13,6 +14,7 @@ if (dsn) {
   Sentry.init({
     dsn,
     ...shared,
+    ignoreErrors: CLIENT_IGNORED_ERROR_PATTERNS,
     // Requests go through our own tunnel route (next.config.ts). A feedback
     // report with a screenshot is sent as a raw ArrayBuffer with no
     // Content-Type, which leaves the tunnel with an empty body and the submit
