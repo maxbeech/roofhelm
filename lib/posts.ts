@@ -60,11 +60,14 @@ export const POSTS: Post[] = [
     title: "What Changed in ASCE 7-22 Snow Loads",
     description: "ASCE 7-22 reworked how ground snow load is determined and added reliability-targeted values. Here is what designers need to know.",
     date: D, readMins: 6, keyword: "asce 7-22 snow load",
+    related: ["ground-snow-load-explained", "how-to-calculate-roof-snow-load", "snow-load-calculation-worked-examples", "ground-snow-load-by-state"],
     body: [
       { p: ["ASCE 7-22 is the 2022 edition of Minimum Design Loads and is being adopted through the 2024 IBC/IRC cycle. Its snow chapter (Chapter 7) kept the familiar equations but changed how the ground snow load is determined."] },
       { h: "Reliability-targeted ground snow loads", p: ["The biggest change is that ground snow loads are now reliability-targeted and delivered through the ASCE Hazard Tool database rather than a single printed map with case-study regions. The result is more site-specific values and, in some places, different numbers than ASCE 7-16 produced."] },
       { h: "The equations are familiar", p: ["The flat-roof equation Pf = 0.7 Ce Ct Is Pg, the slope factor Cs, the minimum-load rules and the drift formulas are all still here and broadly unchanged in form. If you know the 7-16 method, the 7-22 calculation will feel the same; it is mostly the Pg source that moved."] },
       { h: "What to do", p: ["Always pull the ground snow load from the Hazard Tool for the correct code edition your jurisdiction has adopted, and confirm which edition that is. Then run the standard calculation, which is exactly what RoofHelm implements."] },
+      { h: "How the change shows up in a calculation", p: ["Only one input moves: Pg. Take the flat-roof equation Pf = 0.7 × Ce × Ct × Is × Pg. With Ce = 1.0, Ct = 1.0 and Is = 1.0, the factor on Pg is 0.7, so a ground snow load of 40 psf gives 28 psf and a re-issued value of 45 psf gives 31.5 psf. The exposure, thermal and importance factors are untouched, which means a different Pg flows straight through to every downstream check: slope reduction, drift, unbalanced and sliding loads."] },
+      { h: "Which edition governs your project", p: ["Codes are adopted by jurisdiction and by cycle, so a project can be permitted under ASCE 7-16 in one county and ASCE 7-22 in the next. Ask the building department which edition and which ground snow load value it has adopted before you calculate. If it has adopted a specific local value, use that number. The worked examples in our snow load calculation guide show every factor, so you can rerun them with your own Pg."] },
     ],
   },
   {
@@ -72,7 +75,7 @@ export const POSTS: Post[] = [
     title: "Ground Snow Load vs Roof Snow Load: The Difference",
     description: "Why roof snow load is usually less than ground snow load, and the exposure, thermal and importance factors that connect them.",
     date: D, readMins: 5, keyword: "ground snow load vs roof snow load",
-    related: ["ground-snow-load-explained", "how-to-calculate-roof-snow-load", "exposure-thermal-importance-factors", "ground-snow-load-by-state"],
+    related: ["ground-snow-load-explained", "how-to-calculate-roof-snow-load", "exposure-thermal-importance-factors", "ground-snow-load-by-state", "asce-7-22-snow-load-changes"],
     body: [
       { p: ["People often use 'snow load' to mean both the snow on the ground and the snow on the roof, but ASCE 7 treats them as two different numbers connected by a formula."] },
       { h: "Ground snow load", p: ["Pg is what accumulates on open ground. It is a fixed property of your location and the input to the whole calculation."] },
@@ -100,11 +103,14 @@ export const POSTS: Post[] = [
     title: "How Much Does a Foot of Snow Weigh on a Roof?",
     description: "Snow weight depends on density, not just depth. Here is how to estimate roof snow weight and why a foot of wet snow can be 5× a foot of powder.",
     date: D, readMins: 5, keyword: "how much does snow weigh",
+    related: ["how-much-snow-can-my-roof-hold", "estimate-roof-snow-weight-after-storm", "roof-collapse-warning-signs", "ground-snow-load-explained"],
     body: [
       { p: ["A roof does not care how deep the snow is. It cares how much that snow weighs, and weight depends on density, which varies wildly between dry powder and wet, settled snow."] },
       { h: "Density is everything", p: ["Fresh powder can be as light as 3–5 pounds per cubic foot, while old, wet, compacted snow approaches 20–30 pcf. ASCE 7 estimates settled snow density as γ = 0.13 × Pg + 14 psf-per-foot, capped at 30 pcf, so higher ground snow loads come with denser snow."] },
       { h: "Turning depth into load", p: ["Multiply density by depth to get load. A foot of powder at 5 pcf is only 5 psf, but a foot of wet snow at 20 pcf is 20 psf. Two feet of dense snow plus a rain event can quickly approach many roofs' design capacity."] },
       { h: "Knowing your number", p: ["Use the calculator to get your design roof snow load in psf, then watch real accumulation. If you can estimate the depth and whether it is light or wet, you can judge when you are approaching the design value and whether removal is warranted."] },
+      { h: "A worked comparison", p: ["Using the density figures above, 12 inches of snow is 1 ft deep. At 5 pcf that is 5 psf. At 20 pcf it is 20 psf, four times as much from the same depth. Add 1 inch of rain absorbed into the pack and the load rises further, because water weighs about 5.2 psf per inch. Depth alone cannot tell you whether a roof is in trouble."] },
+      { h: "Comparing it with the design load", p: ["Your design roof snow load already assumes a heavy, settled season, so a single storm of light snow is rarely close to it. The risk is the combination of accumulated depth, density that has increased with time and rain on snow. Our guides on estimating roof snow weight after a storm and on collapse warning signs walk through what to measure and what to watch for."] },
     ],
   },
   {
@@ -112,11 +118,14 @@ export const POSTS: Post[] = [
     title: "Metal Roof & Steel Building Snow Load Guide",
     description: "Why metal roofs count as 'slippery surfaces' in ASCE 7, how that lowers the slope factor, and the sliding-snow hazard to plan for.",
     date: D, readMins: 5, keyword: "metal roof snow load",
+    related: ["solar-panels-and-snow-load", "sliding-snow-loads-asce-7", "exposure-thermal-importance-factors", "how-to-calculate-roof-snow-load"],
     body: [
       { p: ["Metal roofs and steel buildings are everywhere in snow country because they shed snow well. ASCE 7 recognises that by classifying smooth metal as an unobstructed slippery surface, which changes the slope factor."] },
       { h: "Slippery means it sheds sooner", p: ["On a warm roof, a slippery surface's slope factor Cs starts reducing the load at just 5°, versus 30° for shingles. So a metal roof at a moderate pitch carries noticeably less balanced snow than an equivalent asphalt roof."] },
       { h: "Don't forget the thermal factor", p: ["Many steel buildings are unheated, so they use Ct = 1.2 rather than 1.0, which adds load and partly offsets the slippery benefit. Enter the real thermal condition, not an optimistic one."] },
       { h: "Sliding snow is the catch", p: ["A slippery roof dumps its snow somewhere. ASCE 7 §7.9 sliding-snow loads land on lower roofs, walkways and equipment below. Plan where the snow goes and keep entrances and lower roofs clear of the slide path."] },
+      { h: "Putting the factors together", p: ["For an unheated steel building, the flat-roof equation becomes Pf = 0.7 × Ce × 1.2 × Is × Pg. With Ce = 1.0, Is = 1.0 and Pg = 40 psf that is 33.6 psf before any slope reduction. Because the surface is slippery and unobstructed, Cs then starts to reduce that load from a shallow pitch, which is the benefit metal roofs have over shingles. Enter the actual roof type and thermal condition in the calculator rather than defaults."] },
+      { h: "Snow retention changes the answer", p: ["Snow guards or other retention devices hold snow on the roof. If you fit them, the roof no longer behaves as an unobstructed slippery surface, so you should not take the full slope reduction. Decide early whether the design relies on snow shedding or on retention, and calculate for that case."] },
     ],
   },
   {
@@ -161,7 +170,7 @@ export const POSTS: Post[] = [
     title: "Why Flat Roofs Are Hardest on Snow",
     description: "Flat roofs carry the full snow load with no shedding, plus rain-on-snow and ponding risk. What to watch for and how to design.",
     date: D, readMins: 5, keyword: "flat roof snow load",
-    related: ["how-to-calculate-roof-snow-load", "snow-drift-loads-on-roofs", "roof-collapse-warning-signs", "ice-dam-formation-and-prevention"],
+    related: ["how-to-calculate-roof-snow-load", "snow-drift-loads-on-roofs", "roof-collapse-warning-signs", "ice-dam-formation-and-prevention", "snow-load-for-decks-balconies", "unbalanced-snow-load-gable-roofs"],
     body: [
       { p: ["Flat and low-slope roofs are the toughest case for snow because they get no help from gravity (nothing slides off), and they invite a couple of extra load cases."] },
       { h: "No slope shedding", p: ["With essentially no slope, the slope factor Cs is 1.0, so the roof carries the full flat-roof load Pf. There is no reduction for shedding the way a steep roof gets."] },
@@ -197,7 +206,7 @@ const WEEK2_POSTS: Post[] = [
     title: "Roof Snow Removal: When and How to Rake",
     description: "When roof snow load approaches the design limit, raking is safer than waiting. Here's how to judge the risk and remove snow without getting on the roof.",
     date: "2026-06-20", readMins: 6, keyword: "roof snow removal",
-    related: ["how-much-snow-can-my-roof-hold", "roof-collapse-warning-signs", "how-much-does-snow-weigh", "ice-dam-formation-and-prevention"],
+    related: ["how-much-snow-can-my-roof-hold", "roof-collapse-warning-signs", "how-much-does-snow-weigh", "ice-dam-formation-and-prevention", "metal-roof-snow-load-guide"],
     body: [
       { p: ["Removing snow from a residential roof is not always necessary, but after a major storm, especially in regions where roofs are not designed for heavy loads, it can prevent a collapse. The key is knowing when the load is actually dangerous and how to remove it safely."] },
       { h: "When should you remove roof snow?", p: ["Remove snow when: (1) your estimated current load exceeds 75% of your design snow load; (2) snow has accumulated over several storms without melting between them; (3) the snow is heavy and wet, not light powder; or (4) you see structural warning signs like sticking doors, cracked drywall or sagging ceilings."] },
@@ -257,6 +266,7 @@ const WEEK2_POSTS: Post[] = [
     title: "Unbalanced Snow Load on Gable Roofs",
     description: "Unbalanced snow load governs gable roofs when wind piles snow on one side. ASCE 7 §7.6 requires a check; here's how to calculate the design case.",
     date: "2026-06-20", readMins: 6, keyword: "unbalanced snow load",
+    related: ["snow-drift-loads-on-roofs", "sliding-snow-loads-asce-7", "snow-load-calculation-worked-examples", "designing-roofs-for-high-snow-loads"],
     body: [
       { p: ["When wind blows across a gable roof, it scours snow off the windward side and deposits it on the leeward side. The result is a roof carrying unequal loads: one side lightened, the other loaded above the balanced value. ASCE 7 §7.6 requires an unbalanced check for gable and hip roofs above a minimum slope threshold."] },
       { h: "When ASCE 7 requires an unbalanced check", p: ["An unbalanced snow load check is required for gable roofs with a slope between 2.38° (1/2:12) and 30.2° (7:12). Slopes below that range are essentially flat and treated differently; slopes above 30.2° are steep enough that wind loading matters but the balanced load is already low from Cs."] },
@@ -323,6 +333,7 @@ const WEEK2_POSTS: Post[] = [
     title: "Snow Load for Decks and Outdoor Structures",
     description: "Decks, balconies and open porches must carry snow just like any roof structure. Here's how to find and apply the design snow load for outdoor platforms.",
     date: "2026-06-20", readMins: 5, keyword: "snow load for deck",
+    related: ["ground-snow-load-explained", "how-much-snow-can-my-roof-hold", "sliding-snow-loads-asce-7", "ground-snow-load-by-state"],
     body: [
       { p: ["Decks, balconies and open porches are outdoor structures exposed to snow accumulation. They do not have a roof to protect them; they accumulate the full ground snow load (or close to it), and their framing must be designed accordingly."] },
       { h: "Are decks designed for snow?", p: ["Most modern building codes require residential decks to carry a minimum live load of 40 psf for decks intended for occupancy. In high-snow regions, the design snow load can exceed 40 psf, in which case the snow load governs. A deck in Rochester, NY with a design roof snow load of 38 psf would typically be framed to a higher standard than the minimum 40 psf live load, but they are close."] },
