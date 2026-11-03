@@ -34,6 +34,16 @@ const nh = getStateSnow("new-hampshire")?.authority;
 check("new hampshire cites the ERDC/CRREL report on DTIC", nh?.href === "https://apps.dtic.mil/sti/pdfs/ADA399953.pdf", JSON.stringify(nh));
 check("new hampshire source states the 259-town scope", !!nh && nh.text.includes("259 towns"), JSON.stringify(nh));
 
+// Connecticut: 2022 State Building Code (with Errata #1), Appendix P, read on 2026-11-03.
+// Town counts are from the appendix: 107 towns at 30 psf, 44 at 35 psf, 18 at 40 psf (169 towns).
+const ct = getStateSnow("connecticut");
+const ctSource = ct?.authority;
+check("connecticut cites the 2022 state building code PDF", ctSource?.href === "https://portal.ct.gov/-/media/DAS/Office-of-State-Building-Inspector/2022-State-Codes/2022-CSBC-Final.pdf", JSON.stringify(ctSource));
+check("connecticut source names Appendix P", !!ctSource && ctSource.text.includes("Appendix P"), JSON.stringify(ctSource));
+check("connecticut source gives the town counts per psf tier", !!ctSource && ctSource.text.includes("30 psf in 107 towns") && ctSource.text.includes("35 psf in 44") && ctSource.text.includes("40 psf in 18"), JSON.stringify(ctSource));
+check("connecticut source states the 30 psf flat-roof minimum", !!ctSource && ctSource.text.includes("30 psf minimum"), JSON.stringify(ctSource));
+check("connecticut range matches the appendix (30 to 40 psf)", ct?.lowPg === 30 && ct?.highPg === 40, `got ${ct?.lowPg} to ${ct?.highPg}, expected 30 to 40`);
+
 // Data that is never rendered is dead weight: the state page must show the source block.
 const pageSource = readFileSync("app/states/[slug]/page.tsx", "utf8");
 check("state page renders the governing source", pageSource.includes("s.authority && ("), "app/states/[slug]/page.tsx has no s.authority block");

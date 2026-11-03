@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-03: Connecticut ground snow range from the state code
+
+- **Range corrected.** The Connecticut page said 25 to 40 psf. The 2022 State Building Code (with Errata #1) lists every town in Appendix P: 30 psf in 107 towns, 35 psf in 44 and 40 psf in 18, so the range is 30 to 40 psf. Section 1608.1.1 also sets a 30 psf minimum on the flat-roof snow load, which the old 25 psf low end contradicted.
+- **Governing source.** `lib/ground-snow.ts` gives Connecticut an `authority` that links the code PDF on portal.ct.gov. The state note now says where the 40 psf towns are.
+- **Not changed.** The typical value (30 psf) and the calculator are unchanged. The page still says "ASCE 7-22 method"; the code text cites "ASCE 7" without an edition, so that wording is unverified here.
+- **Watch.** A 2026 Connecticut State Building Code based on the 2024 IBC is in adoption, with its effective date not confirmed. Re-check Appendix P against the adopted edition when it takes effect.
+- **Tests.** `test/state-authority.test.mts` checks the Connecticut source, the town counts and the 30 to 40 psf range.
+
 ## 2026-10-25: Stop reporting scanner probes as errors
 
 - **Why.** Crawlers and exploit scanners POST to a page with `Accept: text/x-component`, a made-up `Next-Action` id and an `x-middleware-subrequest` header. Next.js refuses the request, then throws `Invariant: Expected RSC response, got text/plain` and Sentry opened an issue for each. Nothing was wrong with the app.
