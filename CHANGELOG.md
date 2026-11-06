@@ -395,3 +395,5 @@ itself stays free and ungated), keeping the DIY/homeowner persona.
   category; the per-structure pages pass their slug. Homepage and state pages
   fall back to the roof-mitigation set.
 - `app/sitemap.ts` includes `/quote`.
+
+Generated Node analytics tests assert the empty error count without narrowing the mutable collection to `never[]`; storage-error checks remain unchanged.
