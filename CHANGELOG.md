@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-06: active return measurement
+
+- Record first measured visits and intentional returns using the shared three-hour, seven-day browser contract.
+- Preserve the product analytics boundary and add regression tests for passive tabs, continuous sessions, consent and storage errors.
+
 ## 2026-11-03: Connecticut ground snow range from the state code
 
 - **Range corrected.** The Connecticut page said 25 to 40 psf. The 2022 State Building Code (with Errata #1) lists every town in Appendix P: 30 psf in 107 towns, 35 psf in 44 and 40 psf in 18, so the range is 30 to 40 psf. Section 1608.1.1 also sets a 30 psf minimum on the flat-roof snow load, which the old 25 psf low end contradicted.
