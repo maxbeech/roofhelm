@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { SITE } from "@/lib/site";
 import { captureServerError, captureServerMessage, logServer } from "@/lib/observability";
-import { FIELD_PROJECT, FIELD_SITE, NOT_ON_SALE, REPORT_KIND } from "@/lib/pro-config";
+import { FIELD_PROJECT, FIELD_SITE, NOT_ON_SALE, REPORT_KIND, proSalesEnabled } from "@/lib/pro-config";
 import { encodeInputs, parseStrictInputs } from "@/lib/snow-url";
 
 // Stripe Checkout for the one-time $29 Pro report. Keys are Helm7 variables
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
   const price = process.env.STRIPE_PRICE_ID;
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? SITE.url;
 
-  if (!secret || !price) {
+  if (!secret || !price || !proSalesEnabled()) {
     return NextResponse.json({ message: NOT_ON_SALE }, { status: 200 });
   }
 

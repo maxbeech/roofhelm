@@ -14,6 +14,12 @@ export function proEnabled(env: Env = process.env): boolean {
   return Boolean(env.STRIPE_SECRET_KEY?.trim() && env.STRIPE_PRICE_ID?.trim());
 }
 
+/** New sales require both the return-page download and the webhook email fallback. */
+export function proSalesEnabled(env: Env = process.env): boolean {
+  return Boolean(proEnabled(env) && env.STRIPE_WEBHOOK_SECRET?.trim() &&
+    env.OPENHELM_API_KEY?.trim() && env.OPENHELM_MAIL_INBOX_ID?.trim());
+}
+
 /** The price this product sells. Empty string when unset, which never matches a real price id. */
 export function proPriceId(env: Env = process.env): string {
   return env.STRIPE_PRICE_ID?.trim() ?? "";

@@ -7,7 +7,7 @@
 import { readFileSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { proEnabled, proPriceId, NOT_ON_SALE, siteBase } from "../lib/pro-config.ts";
+import { proEnabled, proSalesEnabled, proPriceId, NOT_ON_SALE, siteBase } from "../lib/pro-config.ts";
 import { FAILURE } from "../lib/pro-fulfilment.ts";
 import { encodeInputs } from "../lib/snow-url.ts";
 import { SITE } from "../lib/site.ts";
@@ -33,6 +33,11 @@ check("both variables set: enabled", proEnabled({ STRIPE_SECRET_KEY: "sk_test_x"
 check("no secret key: off", !proEnabled({ STRIPE_PRICE_ID: "price_x" }));
 check("no price id: off", !proEnabled({ STRIPE_SECRET_KEY: "sk_test_x" }));
 check("nothing set: off", !proEnabled({}));
+const salesEnv = { STRIPE_SECRET_KEY: "key", STRIPE_PRICE_ID: "price_x", STRIPE_WEBHOOK_SECRET: "signature", OPENHELM_API_KEY: "mail", OPENHELM_MAIL_INBOX_ID: "inbox" };
+check("sales require complete delivery configuration", proSalesEnabled(salesEnv));
+for (const key of Object.keys(salesEnv)) {
+  check(`sales disabled without ${key}`, !proSalesEnabled({ ...salesEnv, [key]: " " }));
+}
 check("blank or whitespace values are off", !proEnabled({ STRIPE_SECRET_KEY: "", STRIPE_PRICE_ID: "price_x" }) && !proEnabled({ STRIPE_SECRET_KEY: "sk_test_x", STRIPE_PRICE_ID: "  " }));
 check("flag follows process.env as it changes", (() => {
   setEnv({ STRIPE_SECRET_KEY: undefined });
@@ -103,6 +108,12 @@ net.sessions.set(SESSION_ID, session());
 html = await render({ status: "success", session_id: SESSION_ID });
 check("paid return: confirmed, with the download link", html.includes("Payment confirmed") && html.includes(`href="/api/report?session_id=${SESSION_ID}"`));
 check("paid return: tells the buyer how long the link works", html.includes("This link works for 30 days"));
+setEnv({ OPENHELM_API_KEY: undefined, STRIPE_WEBHOOK_SECRET: undefined });
+html = await render({ status: "success", session_id: SESSION_ID });
+check("paid return remains downloadable when new sales are paused", html.includes("Payment confirmed") && html.includes(`/api/report?session_id=${SESSION_ID}`));
+html = await render(numbers);
+check("missing delivery configuration hides the buy button", html.includes(NOT_ON_SALE) && !html.includes(BUTTON_TEXT));
+setEnv();
 
 net.sessions.set(SESSION_ID, session({ payment_status: "unpaid" }));
 html = await render({ status: "success", session_id: SESSION_ID });
@@ -134,7 +145,7 @@ check("pricing page opts into per-request rendering", /export const dynamic = "f
 check("pricing page no longer exports a revalidate window", !/export const revalidate/.test(src));
 const topLevelEnv = src.split("\n").filter((l) => /^\S/.test(l) && /process\.env/.test(l));
 check("pricing page reads no environment variable at module scope", topLevelEnv.length === 0, topLevelEnv.join(" | "));
-check("pricing page decides from the runtime flag", /proEnabled\(\)/.test(src) && !/Boolean\(process\.env/.test(src));
+check("pricing page decides from the runtime flag", /proSalesEnabled\(\)/.test(src) && !/Boolean\(process\.env/.test(src));
 const configSrc = readFileSync(new URL("../lib/pro-config.ts", import.meta.url), "utf8");
 check("pro-config reads env inside functions only", configSrc.split("\n").filter((l) => /^\S/.test(l) && /process\.env\./.test(l)).length === 0);
 check("calculators stay static: the home page keeps its revalidate", /export const revalidate = 604800/.test(readFileSync(new URL("../app/page.tsx", import.meta.url), "utf8")));

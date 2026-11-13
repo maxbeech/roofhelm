@@ -168,6 +168,13 @@ setEnv({ STRIPE_SECRET_KEY: undefined });
 let cr = await post({ calc: encodeInputs(GABLE) });
 let cj = await cr.json();
 check("unconfigured: one plain sentence, no throw", cr.status === 200 && cj.message === NOT_ON_SALE && !cj.url);
+for (const key of ["STRIPE_WEBHOOK_SECRET", "OPENHELM_API_KEY", "OPENHELM_MAIL_INBOX_ID"]) {
+  setEnv({ [key]: undefined });
+  const before = net.calls.length;
+  cr = await post({ calc: encodeInputs(GABLE) });
+  cj = await cr.json();
+  check(`checkout refuses when ${key} is missing without contacting Stripe`, cr.status === 200 && cj.message === NOT_ON_SALE && !cj.url && net.calls.length === before);
+}
 setEnv();
 
 const createsBefore = net.calls.filter((c) => c.url === "https://api.stripe.com/v1/checkout/sessions").length;

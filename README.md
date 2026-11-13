@@ -89,8 +89,8 @@ Environment variables (all optional; each feature degrades to an honest state):
 | `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` | Emails each lead to your inbox via Resend (CPL goes live) |
 | `LEAD_FROM_EMAIL` | Optional Resend sender; defaults to `onboarding@resend.dev` (test sender) |
 | `LEAD_WEBHOOK_URL` | Alternative/additional CPL sink: POSTs each lead as JSON to a webhook |
-| `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Turns the Pro report buy button on. Read on every request, so adding them needs a restart but not a rebuild. `STRIPE_PRICE_ID` must be the one-time price for the report |
-| `STRIPE_WEBHOOK_SECRET` | Signing secret (`whsec_...`) of the Stripe webhook endpoint. Without it `/api/stripe/webhook` answers 503 and only the return page delivers the PDF |
+| `STRIPE_SECRET_KEY`, `STRIPE_PRICE_ID` | Required for report sales and downloads. Read on every request, so adding them needs a restart but not a rebuild. `STRIPE_PRICE_ID` must be the one-time price for the report |
+| `STRIPE_WEBHOOK_SECRET` | Signing secret of the Stripe webhook endpoint. Required for new report sales. |
 | `OPENHELM_API_KEY` + `OPENHELM_MAIL_INBOX_ID` | Lets the webhook email the PDF to the buyer (OpenHelm Mail, `lib/openhelm-mail.ts`). Without them nothing is emailed |
 | `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN` | Error, log and user-feedback reporting to the `roofhelm_web` project in the `maxed-labs` Sentry org. Set before the build, since the browser value is inlined. `SENTRY_AUTH_TOKEN` (optional) uploads source maps |
 | `NEXT_PUBLIC_SITE_URL` | Overrides the Stripe success/cancel base URL (defaults to `SITE.url` in `lib/site.ts`; set to `https://www.roofhelm.com` on Helm7) |
@@ -102,6 +102,7 @@ explicit early-access state.
 ## Pro report (paid PDF)
 
 A $29 one-time Stripe Checkout sells a PDF of the buyer's own snow load calculation.
+New sales require the Stripe key, price, webhook secret, OpenHelm API key and mail inbox ID. Existing paid reports can still be downloaded if mail or webhook configuration is unavailable.
 
 1. A calculator result links to `/pricing?<its inputs>`. The pricing page shows the buyer's roof
    and the design load before they pay. No inputs in the URL means no buy button, only a link back

@@ -3,7 +3,7 @@ import Link from "next/link";
 import CheckoutButton from "@/components/CheckoutButton";
 import PurchaseTracker from "@/components/PurchaseTracker";
 import { PageHeader } from "@/components/ui";
-import { DOWNLOAD_WINDOW_DAYS, proEnabled } from "@/lib/pro-config";
+import { DOWNLOAD_WINDOW_DAYS, proSalesEnabled } from "@/lib/pro-config";
 import { FAILURE, loadPurchase } from "@/lib/pro-fulfilment";
 import { REPORT_DISCLAIMER, SHAPE_LABEL } from "@/lib/pro-report";
 import { computeSnow } from "@/lib/snow";
@@ -47,7 +47,7 @@ function Check() {
 
 export default async function Pricing({ searchParams }: { searchParams: Promise<Search> }) {
   const sp = await searchParams;
-  const enabled = proEnabled(); // read now, on this request
+  const enabled = proSalesEnabled(); // read now, on this request
   const qs = new URLSearchParams();
   for (const [k, v] of Object.entries(sp)) {
     const one = Array.isArray(v) ? v[0] : v;

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-13: Require report delivery before checkout
+
+- Pause new Pro report sales when the webhook or report email is not configured. Existing paid report downloads remain available.
+
 ## 2026-11-06: active return measurement
 
 - Record first measured visits and intentional returns using the shared three-hour, seven-day browser contract.
