@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Calculator from "@/components/Calculator";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import TownSnowList from "@/components/TownSnowList";
 import { STATE_SNOW, getStateSnow, snowBand } from "@/lib/ground-snow";
+import { getTownSnowTable } from "@/lib/town-snow";
 import { ROOF_TYPES } from "@/lib/roof-types";
 
 export const dynamicParams = false;
@@ -31,6 +33,8 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
   const { slug } = await params;
   const s = getStateSnow(slug);
   if (!s) notFound();
+  // Only states whose code sets a value per town have a table (see lib/town-snow.ts).
+  const towns = getTownSnowTable(s.slug);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-10">
@@ -69,6 +73,8 @@ export default async function StatePage({ params }: { params: Promise<{ slug: st
           </p>
         )}
       </section>
+
+      {towns && <TownSnowList table={towns} stateName={s.name} />}
 
       <section className="mt-8">
         <h2 className="text-sm font-semibold text-ink-700">Calculate by roof type</h2>
