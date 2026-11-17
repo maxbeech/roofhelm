@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-17: Connecticut town values and code status
+
+- **Town table.** Appendix P of the 2022 Connecticut State Building Code sets a ground snow load for each of 169 towns. `lib/town-snow-data/connecticut.ts` holds all 169 rows, read on 2026-11-17. The counts match the appendix (107 towns at 30 psf, 44 at 35 psf, 18 at 40 psf). The state page groups the towns by psf and names the document, the table and the read date. The generator and parser ran against the PDF text; the rows were not typed by hand.
+- **Town query.** Search Console shows town-level queries on the Connecticut page, for example "simsbury ct ground snow load psf". Simsbury is 35 psf in Appendix P, and the page now answers from the table.
+- **Code status.** The state's adoption page says the next edition's July 1, 2026 effective date is delayed while the Legislative Regulation Review Committee reviews it. The 2022 edition is therefore still the one in force. The governing-source text now says so. Re-read Appendix P when the next edition takes effect.
+- **Internal links.** The Connecticut page now links to "Ground snow load explained" and "When a snow load calculator is not enough".
+- **Unchanged.** The 30 psf typical value, the calculator and the "ASCE 7-22 method" wording. The 2022 code cites "ASCE 7" without an edition, so that wording is still unverified.
+- **Tests.** `test/town-snow.test.mts` checks the counts, the tiers, Simsbury, the link targets and the page wiring. It runs in `npm test`. `test/state-authority.test.mts` still passes.
+>
 ## 2026-11-13: Require report delivery before checkout
 
 - Pause new Pro report sales when the webhook or report email is not configured. Existing paid report downloads remain available.
